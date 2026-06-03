@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#080e18">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Islanda 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Iceland&family=Jura:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #050c14;
+  --paper: #080e18;
+  --cream: #0f1a28;
+  --gold: #f0c060;
+  --gold-light: #f5d080;
+  --ice: #7dd8ef;
+  --ice-dark: #4ab8d8;
+  --lava: #e05a2b;
+  --moss: #3a8c6e;
+  --muted: #7a9db0;
+  --muted-light: #a8c8d8;
+  --surface2: #1a2d40;
+  --border: rgba(0,201,167,0.12);
+  --border2: rgba(125,216,239,0.15);
+  --card: #111e2e;
+  --radius: 16px;
+  --font-display: 'Iceland', monospace;
+  --font-body: 'Jura', system-ui, sans-serif;
+  --font-mono: 'Jura', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--paper);
+  color: #d0e8f0;
+  min-height: 100vh;
+  max-width: 480px;
+  margin: 0 auto;
+  position: relative;
+  overflow-x: clip;
+}
+
+/* HEADER */
+.app-header {
+  background: #003897;
+  color: white;
+  padding: 52px 24px 28px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 4px solid #D72828;
+}
+/* Croce islandese SVG come sfondo decorativo */
+.app-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    /* Braccio verticale rosso */
+    linear-gradient(to right, transparent 38%, #D72828 38%, #D72828 48%, transparent 48%),
+    /* Braccio orizzontale rosso */
+    linear-gradient(to bottom, transparent 45%, #D72828 45%, #D72828 68%, transparent 68%),
+    /* Bordo bianco verticale */
+    linear-gradient(to right, transparent 35%, white 35%, white 51%, transparent 51%),
+    /* Bordo bianco orizzontale */
+    linear-gradient(to bottom, transparent 42%, white 42%, white 71%, transparent 71%);
+  opacity: 0.18;
+  pointer-events: none;
+}
+/* Alone luminoso in alto a destra */
+.app-header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 55% 70% at 92% -10%, rgba(255,255,255,0.12) 0%, transparent 60%),
+              radial-gradient(ellipse 40% 40% at 5% 110%, rgba(215,40,40,0.15) 0%, transparent 55%);
+  pointer-events: none;
+}
+.header-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+}
+.header-title {
+  font-family: var(--font-display);
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 1.0;
+  color: white;
+  margin-bottom: 4px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.3);
+}
+.header-title em {
+  font-style: normal;
+  color: #ffcfcf;
+}
+.header-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 1;
+}
+.header-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+.pill {
+  background: rgba(255,255,255,0.15);
+  border: 0.5px solid rgba(255,255,255,0.35);
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.pill-icon { font-size: 12px; }
+.header-flag {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  width: 64px;
+  height: 46px;
+  border-radius: 4px;
+  opacity: 0.9;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  z-index: 2;
+}
+
+
+
+/* CONTENT */
+.tab-content { display: none; padding: 20px 16px 120px; }
+.tab-content.active { display: block; }
+
+/* SECTION LABEL */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--aurora);
+  margin: 24px 0 12px;
+}
+.section-label:first-child { margin-top: 0; }
+
+/* GIORNO CARD */
+.giorno-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  overflow: hidden;
+  border: 0.5px solid var(--border);
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.giorno-card:hover { border-color: var(--border2); }
+.giorno-card:active { transform: scale(0.98); }
+.giorno-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+}
+.giorno-num {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: var(--surface2);
+  border: 1px solid var(--aurora);
+  color: var(--aurora);
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.giorno-meta { flex: 1; }
+.giorno-data {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--muted);
+  margin-bottom: 3px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.giorno-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 400;
+  color: #d0e8f0;
+  letter-spacing: 0.5px;
+}
+.giorno-badge {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.badge-sud { background: rgba(224,90,43,0.15); color: #e07858; border: 0.5px solid rgba(224,90,43,0.3); }
+.badge-est { background: rgba(58,140,110,0.15); color: var(--aurora); border: 0.5px solid rgba(0,201,167,0.25); }
+.badge-gold { background: rgba(240,192,96,0.12); color: var(--gold); border: 0.5px solid rgba(240,192,96,0.25); }
+.badge-city { background: rgba(125,216,239,0.1); color: var(--ice); border: 0.5px solid rgba(125,216,239,0.2); }
+.badge-festa { background: rgba(184,228,240,0.1); color: #b8e4f0; border: 0.5px solid rgba(184,228,240,0.2); }
+
+.giorno-body {
+  display: none;
+  padding: 0 16px 16px;
+  border-top: 0.5px solid var(--border);
+}
+.giorno-body.open { display: block; }
+.giorno-percorso {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--muted-light);
+  padding: 10px 0 12px;
+  border-bottom: 0.5px solid var(--border);
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+.attivita-list { list-style: none; }
+.attivita-item {
+  display: flex;
+  gap: 10px;
+  padding: 7px 0;
+  font-size: 13px;
+  line-height: 1.4;
+  border-bottom: 0.5px solid rgba(0,0,0,0.2);
+}
+.attivita-item:last-child { border-bottom: none; }
+.att-ora {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--aurora);
+  font-weight: 500;
+  min-width: 38px;
+  padding-top: 2px;
+  opacity: 0.9;
+}
+.att-testo { color: #a8c8d8; font-size: 13px; }
+.pernottamento {
+  margin-top: 12px;
+  background: var(--surface2);
+  border-radius: 8px;
+  border: 0.5px solid var(--border2);
+  padding: 10px 12px;
+  font-size: 12px;
+  color: var(--muted-light);
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.pernottamento strong { color: var(--ice); display: block; margin-bottom: 1px; font-size: 12px; }
+
+/* KM TAB */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.stat-box {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 14px 10px;
+  text-align: center;
+  border: 0.5px solid var(--border);
+}
+.stat-val {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 400;
+  color: #d0e8f0;
+  line-height: 1;
+  letter-spacing: 1px;
+}
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.stat-box.accent { background: var(--surface2); border-color: rgba(0,201,167,0.3); }
+.stat-box.accent .stat-val { color: var(--aurora); }
+.stat-box.accent .stat-label { color: var(--muted-light); }
+
+.km-row {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 0.5px solid var(--border);
+}
+.km-day-badge {
+  background: var(--surface2);
+  color: var(--aurora);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 400;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 0.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.km-info { flex: 1; }
+.km-tratta { font-size: 13px; color: #c0d8e8; font-weight: 500; }
+.km-note { font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin-top: 3px; }
+.km-val {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--ice);
+  letter-spacing: 1px;
+}
+.km-unit { font-family: var(--font-mono); font-size: 10px; color: var(--muted); text-align: right; }
+
+.km-bar-wrap { margin: 20px 0 8px; }
+.km-bar-label { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 9px; color: var(--muted); margin-bottom: 6px; }
+.km-bar-bg { height: 4px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
+.km-bar-fill { height: 100%; background: linear-gradient(90deg, var(--aurora), var(--ice)); border-radius: 2px; }
+
+/* SPESE TAB */
+.budget-hero {
+  background: var(--surface2);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0,201,167,0.2);
+}
+.budget-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 80% at 100% 100%, rgba(0,201,167,0.08) 0%, transparent 60%);
+}
+.budget-hero-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted-light); margin-bottom: 6px; letter-spacing: 1px; text-transform: uppercase; }
+.budget-hero-val {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 400;
+  color: white;
+  line-height: 1;
+  letter-spacing: 2px;
+}
+.budget-hero-sub { font-family: var(--font-mono); font-size: 10px; color: var(--aurora); margin-top: 6px; }
+.budget-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
+.budget-mini { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 10px 12px; border: 0.5px solid var(--border); }
+.budget-mini-label { font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin-bottom: 4px; letter-spacing: 0.5px; text-transform: uppercase; }
+.budget-mini-val { font-family: var(--font-display); font-size: 20px; font-weight: 400; color: var(--ice); letter-spacing: 1px; }
+
+.spesa-category { margin-bottom: 16px; }
+.cat-title {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--aurora);
+  padding: 0 4px;
+  margin-bottom: 8px;
+  opacity: 0.9;
+}
+.spesa-item {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 0.5px solid var(--border);
+}
+.spesa-name { font-size: 13px; color: #c0d8e8; font-weight: 500; }
+.spesa-note { font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-top: 3px; }
+.spesa-amount {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--ice);
+  white-space: nowrap;
+  margin-left: 10px;
+  letter-spacing: 0.5px;
+}
+.spesa-amount.isk { font-family: var(--font-mono); font-size: 11px; color: var(--muted-light); }
+.spesa-total {
+  background: var(--surface2);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2px;
+  border: 0.5px solid rgba(0,201,167,0.25);
+}
+.spesa-total span { font-family: var(--font-mono); font-size: 10px; color: var(--muted-light); }
+.spesa-total strong {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--aurora);
+  letter-spacing: 1px;
+}
+
+/* INFO TAB */
+.info-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 0.5px solid var(--border);
+}
+.info-card-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--ice);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: 0.5px;
+}
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 0.5px solid rgba(0,0,0,0.25);
+  font-size: 13px;
+}
+.info-row:last-child { border-bottom: none; }
+.info-key { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.info-val { font-weight: 500; color: #c8e0ee; text-align: right; font-size: 12px; }
+.info-note {
+  background: rgba(58,140,110,0.1);
+  border-left: 2px solid var(--aurora);
+  border-radius: 0 8px 8px 0;
+  padding: 10px 12px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--muted-light);
+  line-height: 1.7;
+  margin-top: 6px;
+}
+.volo-card {
+  background: var(--surface2);
+  border-radius: 12px;
+  border: 0.5px solid var(--border2);
+  padding: 14px 16px;
+  color: white;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.volo-dir { font-family: var(--font-mono); font-size: 8px; color: var(--aurora); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px; }
+.volo-route { font-family: var(--font-display); font-size: 22px; font-weight: 400; color: #d0e8f0; letter-spacing: 2px; }
+.volo-details { font-family: var(--font-mono); font-size: 10px; color: var(--muted-light); margin-top: 3px; letter-spacing: 0.5px; }
+.volo-icon { font-size: 24px; opacity: 0.6; }
+.volo-num { background: rgba(0,201,167,0.1); border: 0.5px solid rgba(0,201,167,0.25); border-radius: 5px; padding: 4px 10px; font-family: var(--font-mono); font-size: 10px; color: var(--aurora); margin-left: auto; white-space: nowrap; }
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  background: rgba(11,18,32,0.97);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(0,201,167,0.15);
+  display: flex;
+  padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+  z-index: 200;
+}
+.nav-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--muted-light);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.2s;
+}
+.nav-btn .n-icon { font-size: 18px; }
+.nav-btn.active { color: var(--aurora); }
+
+/* LINK LUOGHI */
+.place-link {
+  color: var(--ice);
+  text-decoration: none;
+  border-bottom: 0.5px solid rgba(125,216,239,0.35);
+}
+.place-link:hover { color: var(--aurora); border-bottom-color: var(--aurora); }
+a.emergency-link {
+  color: var(--lava);
+  font-weight: 700;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+/* METEO */
+.meteo-tab { padding: 20px 16px 100px; display: none; }
+.meteo-tab.active { display: block; }
+.meteo-day-card {
+  background: var(--card);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  border: 0.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.meteo-day-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--surface2);
+  border: 1px solid var(--aurora);
+  color: var(--aurora);
+  font-family: var(--font-display);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.meteo-day-info { flex: 1; }
+.meteo-day-data { font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin-bottom: 3px; text-transform: uppercase; }
+.meteo-day-desc { font-family: var(--font-display); font-size: 18px; color: #d0e8f0; letter-spacing: 0.5px; }
+.meteo-day-temps { font-family: var(--font-mono); font-size: 11px; color: var(--muted-light); margin-top: 3px; }
+.meteo-icon { font-size: 28px; }
+.meteo-loading { text-align: center; padding: 40px; font-family: var(--font-mono); color: var(--muted); font-size: 13px; }
+.meteo-note { font-family: var(--font-mono); font-size: 11px; color: var(--muted); text-align: center; padding: 10px; }
+/* ===== SPESE APP ===== */
+.sp-hero {
+  background: var(--surface2);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0,201,167,0.2);
+  position: relative;
+  overflow: hidden;
+}
+.sp-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 80% at 100% 100%, rgba(0,201,167,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+.sp-hero-label { font-family: var(--font-mono); font-size: 10px; color: var(--muted-light); margin-bottom: 4px; letter-spacing: 1px; text-transform: uppercase; }
+.sp-hero-val { font-family: var(--font-display); font-size: 46px; color: white; line-height: 1; letter-spacing: 2px; }
+.sp-hero-sub { font-family: var(--font-mono); font-size: 10px; color: var(--aurora); margin-top: 4px; }
+.sp-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+.sp-mini { background: rgba(0,0,0,0.25); border-radius: 8px; padding: 10px 12px; border: 0.5px solid var(--border); }
+.sp-mini-label { font-family: var(--font-mono); font-size: 9px; color: var(--muted); margin-bottom: 3px; letter-spacing: 0.5px; text-transform: uppercase; }
+.sp-mini-val { font-family: var(--font-display); font-size: 18px; color: var(--ice); letter-spacing: 1px; }
+.sp-mini-val.paid { color: var(--aurora); }
+.sp-mini-val.due  { color: var(--gold); }
+.sp-cat { margin-bottom: 14px; }
+.sp-cat-title {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--aurora); padding: 0 4px;
+  margin-bottom: 8px; opacity: 0.9; display: flex; justify-content: space-between; align-items: center;
+}
+.sp-add-btn {
+  background: rgba(0,201,167,0.1); border: 0.5px solid rgba(0,201,167,0.35);
+  color: var(--aurora); border-radius: 4px; padding: 2px 8px;
+  font-family: var(--font-mono); font-size: 10px; cursor: pointer;
+  transition: background 0.15s;
+}
+.sp-add-btn:hover { background: rgba(0,201,167,0.2); }
+.sp-item {
+  background: var(--card); border-radius: 10px; padding: 11px 14px;
+  margin-bottom: 5px; display: flex; align-items: center; gap: 10px;
+  border: 0.5px solid var(--border); transition: opacity 0.2s;
+}
+.sp-item.is-paid { border-color: rgba(0,201,167,0.2); }
+.sp-item.is-custom { border-color: rgba(125,216,239,0.2); }
+.sp-item-info { flex: 1; min-width: 0; }
+.sp-item-name { font-size: 13px; color: #c0d8e8; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sp-item-name.paid-name { text-decoration: line-through; color: var(--muted); }
+.sp-item-note { font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin-top: 2px; }
+.sp-item-amount { font-family: var(--font-display); font-size: 15px; color: var(--ice); white-space: nowrap; letter-spacing: 0.5px; flex-shrink: 0; }
+.sp-item-amount.isk { font-family: var(--font-mono); font-size: 11px; color: var(--muted-light); }
+.sp-item-amount.paid-amount { color: var(--aurora); }
+.sp-toggle { position: relative; width: 34px; height: 19px; flex-shrink: 0; }
+.sp-toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+.sp-toggle-slider {
+  position: absolute; inset: 0; border-radius: 19px;
+  background: var(--surface2); border: 1px solid var(--border);
+  cursor: pointer; transition: background 0.2s;
+}
+.sp-toggle-slider::before {
+  content: ''; position: absolute; width: 13px; height: 13px;
+  border-radius: 50%; background: var(--muted); top: 2px; left: 2px;
+  transition: transform 0.2s, background 0.2s;
+}
+.sp-toggle input:checked + .sp-toggle-slider { background: rgba(0,201,167,0.2); border-color: var(--aurora); }
+.sp-toggle input:checked + .sp-toggle-slider::before { transform: translateX(15px); background: var(--aurora); }
+.sp-del-btn {
+  background: none; border: none; color: var(--muted); cursor: pointer;
+  font-size: 14px; padding: 2px 4px; border-radius: 4px; flex-shrink: 0;
+  transition: color 0.15s;
+}
+.sp-del-btn:hover { color: var(--lava); }
+.sp-cat-total {
+  background: var(--surface2); border-radius: 8px; padding: 10px 14px;
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 2px; border: 0.5px solid rgba(0,201,167,0.2);
+}
+.sp-cat-total span { font-family: var(--font-mono); font-size: 10px; color: var(--muted-light); }
+.sp-cat-total strong { font-family: var(--font-display); font-size: 18px; color: var(--aurora); letter-spacing: 1px; }
+.sp-form {
+  background: var(--surface2); border-radius: 12px; padding: 14px;
+  margin-bottom: 5px; border: 1px solid rgba(125,216,239,0.2);
+  display: none;
+}
+.sp-form.open { display: block; }
+.sp-form-row { display: flex; gap: 8px; margin-bottom: 8px; }
+.sp-form-row:last-child { margin-bottom: 0; }
+.sp-input {
+  flex: 1; background: var(--card); border: 0.5px solid var(--border);
+  border-radius: 6px; padding: 8px 10px; color: #c0d8e8;
+  font-family: var(--font-mono); font-size: 11px; outline: none;
+  transition: border-color 0.15s;
+}
+.sp-input:focus { border-color: var(--aurora); }
+.sp-input::placeholder { color: var(--muted); }
+.sp-select {
+  background: var(--card); border: 0.5px solid var(--border);
+  border-radius: 6px; padding: 8px 10px; color: #c0d8e8;
+  font-family: var(--font-mono); font-size: 11px; outline: none; cursor: pointer;
+}
+.sp-currency-btn {
+  background: var(--card); border: 0.5px solid var(--border);
+  border-radius: 5px; padding: 7px 14px; color: var(--muted);
+  font-family: var(--font-mono); font-size: 11px; cursor: pointer;
+  transition: all 0.15s; white-space: nowrap;
+}
+.sp-currency-btn.active { background: rgba(0,201,167,0.15); border-color: var(--aurora); color: var(--aurora); }
+.sp-save-btn {
+  flex: 1; background: rgba(0,201,167,0.15); border: 1px solid rgba(0,201,167,0.4);
+  border-radius: 6px; padding: 8px; color: var(--aurora);
+  font-family: var(--font-mono); font-size: 11px; cursor: pointer;
+  transition: background 0.15s; letter-spacing: 0.5px;
+}
+.sp-save-btn:hover { background: rgba(0,201,167,0.25); }
+.sp-cancel-btn {
+  background: rgba(255,255,255,0.05); border: 0.5px solid var(--border);
+  border-radius: 6px; padding: 8px 14px; color: var(--muted);
+  font-family: var(--font-mono); font-size: 11px; cursor: pointer;
+}
+.sp-rate-note { font-family: var(--font-mono); font-size: 10px; color: var(--muted); text-align: center; padding: 10px 0 2px; }
+
+/* PARKA */
+a.parka-link {
+  display: inline-flex; align-items: center; justify-content: center;
+  text-decoration: none; margin-left: 5px; vertical-align: middle;
+  border-radius: 5px; overflow: hidden; flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  transition: opacity 0.15s; opacity: 0.9;
+}
+a.parka-link:hover { opacity: 1; }
+a.parka-link svg { display: block; }
+
+/* VIABILITÀ */
+.viab-card {
+  background: var(--card); border-radius: var(--radius);
+  padding: 16px; margin-bottom: 12px; border: 0.5px solid var(--border);
+}
+.viab-header {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
+}
+.viab-title { font-family: var(--font-display); font-size: 18px; color: var(--ice); letter-spacing: 0.5px; }
+.viab-refresh {
+  background: rgba(0,201,167,0.1); border: 0.5px solid rgba(0,201,167,0.3);
+  border-radius: 4px; padding: 4px 10px; font-family: var(--font-mono);
+  font-size: 10px; color: var(--aurora); cursor: pointer; transition: background 0.15s;
+}
+.viab-refresh:hover { background: rgba(0,201,167,0.2); }
+.viab-loading { font-family: var(--font-mono); font-size: 11px; color: var(--muted); text-align: center; padding: 20px; }
+.viab-empty { font-family: var(--font-mono); font-size: 11px; color: var(--aurora); text-align: center; padding: 14px; background: rgba(0,201,167,0.06); border-radius: 8px; }
+.viab-ts { font-family: var(--font-mono); font-size: 9px; color: var(--muted); text-align: right; padding-top: 8px; }
+
+/* Righe strade — stesso stile per allerte e roads */
+.viab-row {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 10px 12px; margin-bottom: 6px;
+  border-radius: 8px; border-left: 3px solid transparent;
+}
+.viab-row.sev-red    { background: rgba(224,90,43,0.10); border-left-color: var(--lava); }
+.viab-row.sev-yellow { background: rgba(240,192,96,0.10); border-left-color: var(--gold); }
+.viab-row.sev-green  { background: rgba(0,201,167,0.08); border-left-color: var(--aurora); }
+.viab-row.sev-gray   { background: rgba(125,216,239,0.05); border-left-color: var(--muted); }
+.viab-row-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.viab-row-body { flex: 1; }
+.viab-row-label { font-family: var(--font-mono); font-size: 10px; color: var(--muted-light); margin-bottom: 3px; letter-spacing: 0.5px; text-transform: uppercase; }
+.viab-row-title { font-family: var(--font-display); font-size: 16px; letter-spacing: 0.3px; margin-bottom: 2px; }
+.viab-row.sev-red    .viab-row-title { color: var(--lava); }
+.viab-row.sev-yellow .viab-row-title { color: var(--gold); }
+.viab-row.sev-green  .viab-row-title { color: var(--aurora); }
+.viab-row.sev-gray   .viab-row-title { color: var(--muted-light); }
+.viab-row-desc { font-family: var(--font-mono); font-size: 10px; color: var(--muted-light); line-height: 1.5; }
+
+/* Area errore — rossa con motivo tecnico */
+.viab-error {
+  background: rgba(224,90,43,0.08); border: 1px solid rgba(224,90,43,0.25);
+  border-radius: 8px; padding: 12px 14px; margin-bottom: 8px;
+}
+.viab-error-title { font-family: var(--font-display); font-size: 15px; color: var(--lava); margin-bottom: 4px; }
+.viab-error-reason { font-family: var(--font-mono); font-size: 10px; color: rgba(224,90,43,0.7); margin-bottom: 8px; }
+
+/* Area info/link — azzurra separata */
+.viab-info {
+  background: rgba(125,216,239,0.08); border: 0.5px solid rgba(125,216,239,0.25);
+  border-radius: 8px; padding: 11px 14px; margin-top: 8px;
+}
+.viab-info-title { font-family: var(--font-mono); font-size: 10px; color: var(--ice); margin-bottom: 6px; letter-spacing: 0.5px; text-transform: uppercase; }
+.viab-info a { display: block; margin-bottom: 4px; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.tab-content.active > * {
+  animation: fadeUp 0.3s ease both;
+}
+.tab-content.active > *:nth-child(2) { animation-delay: 0.04s; }
+.tab-content.active > *:nth-child(3) { animation-delay: 0.08s; }
+.tab-content.active > *:nth-child(4) { animation-delay: 0.12s; }
+.tab-content.active > *:nth-child(5) { animation-delay: 0.16s; }
+.tab-content.active > *:nth-child(6) { animation-delay: 0.20s; }
+.tab-content.active > *:nth-child(7) { animation-delay: 0.24s; }
+.tab-content.active > *:nth-child(8) { animation-delay: 0.28s; }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <!-- Bandiera islandese decorativa in alto a destra -->
+  <svg class="header-flag" viewBox="0 0 25 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect width="25" height="18" fill="#003897"/>
+    <rect x="7" width="3" height="18" fill="white"/>
+    <rect y="7" width="25" height="4" fill="white"/>
+    <rect x="8" width="1" height="18" fill="#D72828"/>
+    <rect y="8" width="25" height="2" fill="#D72828"/>
+  </svg>
+  <div class="header-eyebrow">Piano Viaggio</div>
+  <h1 class="header-title"><em>Islanda</em> 2026</h1>
+  <p class="header-sub">11–18 Giugno · Ring Road Sud + Circolo d'Oro</p>
+  <div class="header-pills">
+    <div class="pill"><span class="pill-icon">✈️</span> EJU3969</div>
+    <div class="pill"><span class="pill-icon">🚗</span> Dacia Duster</div>
+    <div class="pill"><span class="pill-icon">👥</span> 2 persone</div>
+    <div class="pill"><span class="pill-icon">📅</span> 8 giorni</div>
+  </div>
+</header>
+
+
+
+<!-- ========== ITINERARIO ========== -->
+<div id="tab-itinerario" class="tab-content active">
+
+  <p class="section-label">8 giorni · 7 tappe principali</p>
+
+  <!-- G1 -->
+  <div class="giorno-card" onclick="toggleDay(this)">
+    <div class="giorno-header">
+      <div class="giorno-num">1</div>
+      <div class="giorno-meta">
+        <div class="giorno-data">Giovedì 11 Giugno</div>
+        <div class="giorno-title">Arrivo e direzione Sud</div>
+      </div>
+      <span class="giorno-badge badge-sud">Sud</span>
+    </div>
+    <div class="giorno-body">
+      <div class="giorno-percorso">✈ Keflavík → Hafnarfjörður → Hella</div>
+      <ul class="attivita-list">
+        <li class="attivita-item"><span class="att-ora">09:25</span><span class="att-testo">Atterraggio a Keflavík</span></li>
+        <li class="attivita-item"><span class="att-ora">~10:00</span><span class="att-testo">Recupero auto Blue Car Rental — Dacia Duster (Booking #YT5XRO)</span></li>
+        <li class="attivita-item"><span class="att-ora">~11:00</span><span class="att-testo">Tappa a <a class="place-link" href="https://maps.google.com/?q=Hafnarfjörður+Iceland" target="_blank">Hafnarfjörður</a>: primo assaggio dell'atmosfera vichinga <a class="parka-link" href="https://www.parka.is/?lat=64.0667&lng=-21.9447&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a></span></li>
+        <li class="attivita-item"><span class="att-ora">15:00</span><span class="att-testo">🌋 <a class="place-link" href="https://maps.google.com/?q=LAVA+Centre+Hvolsvöllur" target="_blank">LAVA Centre</a>, Austurvegur 14, Hvolsvöllur — visita completa (72€) <a class="parka-link" href="https://www.parka.is/?lat=63.9843&lng=-20.2264&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a></span></li>
+        <li class="attivita-item"><span class="att-ora">~17:00</span><span class="att-testo">Check-in hotel (non prima delle 17)</span></li>
+      </ul>
+      <div class="pernottamento">🛏 <div><strong><a class="place-link" href="https://maps.google.com/?q=Arhus+Cottage+and+Camping+Hella+Iceland" target="_blank">Arhus Cottage and Camping</a></strong>6 Rangárbakkar, 850 Hella</div></div>
+    </div>
+  </div>
+
+  <!-- G2 -->
+  <div class="giorno-card" onclick="toggleDay(this)">
+    <div class="giorno-header">
+      <div class="giorno-num">2</div>
+      <div class="giorno-meta">
+        <div class="giorno-data">Venerdì 12 Giugno</div>
+        <div class="giorno-title">Le Isole dei Puffin</div>
+      </div>
+      <span class="giorno-badge badge-sud">Isole</span>
+    </div>
+    <div class="giorno-body">
+      <div class="giorno-percorso">🚢 Hella → Porto Landeyjahöfn → Vestmannaeyjar</div>
+      <ul class="attivita-list">
+        <li class="attivita-item"><span class="att-ora">09:00</span><span class="att-testo">Partenza per il porto</span></li>
+        <li class="attivita-item"><span class="att-ora">10:00</span><span class="att-testo">🚢 Traghetto per l'isola (A/R 18.200 ISK)</span></li>
+        <li class="attivita-item"><span class="att-ora">10:45</span><span class="att-testo">🐦 <a class="place-link" href="https://maps.google.com/?q=Stórhöfði+Vestmannaeyjar" target="_blank">Stórhöfði</a> — punto più ventoso d'Europa, pieno di puffin (maggio–agosto)</span></li>
+        <li class="attivita-item"><span class="att-ora">11:30</span><span class="att-testo">🌋 Escursione sul <a class="place-link" href="https://maps.google.com/?q=Eldfell+volcano+Vestmannaeyjar" target="_blank">Vulcano Eldfell</a> — cratere dell'eruzione del '73, terra ancora calda</span></li>
+        <li class="attivita-item"><span class="att-ora">12:45</span><span class="att-testo">🍽 Pranzo: <a class="place-link" href="https://maps.google.com/?q=Gott+restaurant+Vestmannaeyjar" target="_blank">Gott</a> o <a class="place-link" href="https://maps.google.com/?q=The+Brothers+Brewery+Vestmannaeyjar" target="_blank">The Brothers Brewery</a></span></li>
+        <li class="attivita-item"><span class="att-ora">14:00</span><span class="att-testo">🏛 <a class="place-link" href="https://maps.google.com/?q=Eldheimar+museum+Vestmannaeyjar" target="_blank">Museo Eldheimar</a> — la "Pompei del Nord", casa sepolta dalla cenere</span></li>
+        <li class="attivita-item"><span class="att-ora">15:45</span><span class="att-testo">🐘 <a class="place-link" href="https://maps.google.com/?q=Elephant+Rock+Vestmannaeyjar" target="_blank">Roccia dell'Elefante</a> + monumento dei Mormoni</span></li>
+        <li class="attivita-item"><span class="att-ora">16:30</span><span class="att-testo">⛪ <a class="place-link" href="https://maps.google.com/?q=Skansinn+Vestmannaeyjar" target="_blank">Skansinn</a> — forte e chiesa in legno (Stafkirkjan)</span></li>
+        <li class="attivita-item"><span class="att-ora">17:00</span><span class="att-testo">🛍 Shopping e relax al porto</span></li>
+        <li class="attivita-item"><span class="att-ora">18:00</span><span class="att-testo">🚢 Traghetto di rientro</span></li>
+      </ul>
+      <div class="pernottamento">🛏 <div><strong><a class="place-link" href="https://maps.google.com/?q=Arhus+Cottage+and+Camping+Hella+Iceland" target="_blank">Arhus Cottage and Camping</a></strong>6 Rangárbakkar, 850 Hella</div></div>
+    </div>
+  </div>
+
+  <!-- G3 -->
+  <div class="giorno-card" onclick="toggleDay(this)">
+    <div class="giorno-header">
+      <div class="giorno-num">3</div>
+      <div class="giorno-meta">
+        <div class="giorno-data">Sabato 13 Giugno</div>
+        <div class="giorno-title">Cascate e Spiaggia Nera</div>
+      </div>
+      <span class="giorno-badge badge-sud">Sud</span>
+    </div>
+    <div class="giorno-body">
+      <div class="giorno-percorso">🚗 Hella → Seljalandsfoss → Skógafoss → Reynisfjara → Vík</div>
+      <ul class="attivita-list">
+        <li class="attivita-item"><span class="att-ora">09:00</span><span class="att-testo">Partenza da hotel</span></li>
+        <li class="attivita-item"><span class="att-ora">10:00</span><span class="att-testo">💧 <a class="place-link" href="https://maps.google.com/?q=Seljalandsfoss+waterfall" target="_blank">Seljalandsfoss</a> <a class="parka-link" href="https://www.parka.is/?lat=63.6156&lng=-19.9886&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a> — si cammina DIETRO la cascata! Poi 10 min a sinistra per la cascata nascosta <a class="place-link" href="https://maps.google.com/?q=Gljúfrabúi+waterfall" target="_blank">Gljúfrabúi</a> (1h)</span></li>
+        <li class="attivita-item"><span class="att-ora">12:00</span><span class="att-testo">💧 <a class="place-link" href="https://maps.google.com/?q=Skógafoss+waterfall" target="_blank">Skógafoss</a> <a class="parka-link" href="https://www.parka.is/?lat=63.532&lng=-19.512&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a> — sali la scalinata destra per la vista dall'alto. Considera i primi 500m del sentiero Fimmvörðuháls (1h-1h30)</span></li>
+        <li class="attivita-item"><span class="att-ora">~13:30</span><span class="att-testo">💧 <a class="place-link" href="https://maps.google.com/?q=Kvernufoss+waterfall+Iceland" target="_blank">Kvernufoss</a> — la "sorella segreta" di Seljalandsfoss, 2 min di auto da Skógafoss. Quasi deserta, cammini dietro (20 min a piedi)</span></li>
+        <li class="attivita-item"><span class="att-ora">15:00</span><span class="att-testo">🏖 <a class="place-link" href="https://maps.google.com/?q=Reynisfjara+black+sand+beach" target="_blank">Reynisfjara</a> <a class="parka-link" href="https://www.parka.is/?lat=63.4055&lng=-19.044&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a> — colonne di basalto e grotta Hálsanefshellir. ⚠️ Attenzione sneaker waves!</span></li>
+        <li class="attivita-item"><span class="att-ora">17:00</span><span class="att-testo">⛪ <a class="place-link" href="https://maps.google.com/?q=Víkurkirkja+Vík+Iceland" target="_blank">Vík — chiesa Víkurkirkja</a> per la vista panoramica sui faraglioni Reynisdrangar</span></li>
+      </ul>
+      <div class="pernottamento">🛏 <div><strong><a class="place-link" href="https://maps.google.com/?q=Hotel+Katla+by+Keahotels+Vik+Iceland" target="_blank">Hotel Katla by Keahotels</a></strong>Hofdabrekka Road 1, ~5 km Est di Vík, 871 Vík</div></div>
+    </div>
+  </div>
+
+  <!-- G4 -->
+  <div class="giorno-card" onclick="toggleDay(this)">
+    <div class="giorno-header">
+      <div class="giorno-num">4</div>
+      <div class="giorno-meta">
+        <div class="giorno-data">Domenica 14 Giugno</div>
+        <div class="giorno-title">Iceberg e Diamanti</div>
+      </div>
+      <span class="giorno-badge badge-est">Est</span>
+    </div>
+    <div class="giorno-body">
+      <div class="giorno-percorso">🚗 Vík → Jökulsárlón → Diamond Beach → Reykjavík (565 km)</div>
+      <ul class="attivita-list">
+        <li class="attivita-item"><span class="att-ora">08:30</span><span class="att-testo">Partenza — lungo il tragitto: Eldhraun, campo di lava coperto di muschio verde (fermarsi nelle aree sosta)</span></li>
+        <li class="attivita-item"><span class="att-ora">12:00</span><span class="att-testo">🧊 <a class="place-link" href="https://maps.google.com/?q=Jökulsárlón+glacier+lagoon" target="_blank">Jökulsárlón</a> <a class="parka-link" href="https://www.parka.is/?lat=64.0784&lng=-16.2306&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a> — battello sulla laguna glaciale (14.200 ISK, prenotato). Uno dei posti più magici al mondo</span></li>
+        <li class="attivita-item"><span class="att-ora">13:00</span><span class="att-testo">💎 <a class="place-link" href="https://maps.google.com/?q=Diamond+Beach+Iceland" target="_blank">Diamond Beach</a> <a class="parka-link" href="https://www.parka.is/?lat=64.043&lng=-16.18&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a> — spiaggia nera con iceberg trasparenti</span></li>
+        <li class="attivita-item"><span class="att-ora">14:00</span><span class="att-testo">🚗 Lungo viaggio di rientro verso Reykjavík (5h)</span></li>
+        <li class="attivita-item"><span class="att-ora">~14:30</span><span class="att-testo">🎬 Canyon del Trono di Spade — deviazione ~1h totale, ne vale la pena!</span></li>
+      </ul>
+      <div class="pernottamento">🛏 <div><strong><a class="place-link" href="https://maps.google.com/?q=Hotel+Aska+29A+Skipholt+Reykjavik" target="_blank">Hotel Aska</a></strong>29A Skipholt, 105 Reykjavík (4 notti)</div></div>
+    </div>
+  </div>
+
+  <!-- G5 -->
+  <div class="giorno-card" onclick="toggleDay(this)">
+    <div class="giorno-header">
+      <div class="giorno-num">5</div>
+      <div class="giorno-meta">
+        <div class="giorno-data">Lunedì 15 Giugno</div>
+        <div class="giorno-title">Il Circolo d'Oro</div>
+      </div>
+      <span class="giorno-badge badge-gold">Þingvellir</span>
+    </div>
+    <div class="giorno-body">
+      <div class="giorno-percorso">🚗 Reykjavík → Þingvellir → Geysir → Gullfoss (240 km)</div>
+      <ul class="attivita-list">
+        <li class="attivita-item"><span class="att-ora">08:30</span><span class="att-testo">Partenza</span></li>
+        <li class="attivita-item"><span class="att-ora">09:30</span><span class="att-testo">🏛 <a class="place-link" href="https://maps.google.com/?q=Þingvellir+National+Park+Iceland" target="_blank">Parco Þingvellir</a> <a class="parka-link" href="https://www.parka.is/?lat=64.2559&lng=-21.1295&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a> — faglia tra placche tettoniche (Almannagjá), primo parlamento al mondo. Parcheggio P1 Hakið (~1000 ISK, app Parka.is). Cascata <a class="place-link" href="https://maps.google.com/?q=Öxarárfoss+Þingvellir" target="_blank">Öxarárfoss</a> + Lögberg</span></li>
+        <li class="attivita-item"><span class="att-ora">~13:00</span><span class="att-testo">🌋 <a class="place-link" href="https://maps.google.com/?q=Geysir+Iceland" target="_blank">Geysir</a> <a class="parka-link" href="https://www.parka.is/?lat=64.3108&lng=-20.3001&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a> — Strokkur erutta ogni 5-10 min, getti fino a 20m</span></li>
+        <li class="attivita-item"><span class="att-ora">15:30</span><span class="att-testo">💧 <a class="place-link" href="https://maps.google.com/?q=Gullfoss+waterfall+Iceland" target="_blank">Gullfoss</a> <a class="parka-link" href="https://www.parka.is/?lat=64.327&lng=-20.121&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a> — "Cascata d'Oro". Due livelli: uno alto (vicino al parcheggio) e uno basso a ridosso del salto</span></li>
+      </ul>
+      <div class="pernottamento">🛏 <div><strong><a class="place-link" href="https://maps.google.com/?q=Hotel+Aska+29A+Skipholt+Reykjavik" target="_blank">Hotel Aska</a></strong>29A Skipholt, 105 Reykjavík</div></div>
+    </div>
+  </div>
+
+  <!-- G6 -->
+  <div class="giorno-card" onclick="toggleDay(this)">
+    <div class="giorno-header">
+      <div class="giorno-num">6</div>
+      <div class="giorno-meta">
+        <div class="giorno-data">Martedì 16 Giugno</div>
+        <div class="giorno-title">Festival Vichingo e Secret Lagoon</div>
+      </div>
+      <span class="giorno-badge badge-city">Reykjavík</span>
+    </div>
+    <div class="giorno-body">
+      <div class="giorno-percorso">🚗 Reykjavík → Hafnarfjörður → Kerið → Secret Lagoon (195 km)</div>
+      <ul class="attivita-list">
+        <li class="attivita-item"><span class="att-ora">09:00</span><span class="att-testo">⚔️ <a class="place-link" href="https://maps.google.com/?q=Víðistaðatún+park+Hafnarfjörður" target="_blank">Víðistaðatún, Hafnarfjörður</a> — Festival Vichingo: mercatini e combattimenti</span></li>
+        <li class="attivita-item"><span class="att-ora">13:00</span><span class="att-testo">🍺 <a class="place-link" href="https://maps.google.com/?q=Fjörukráin+Viking+Village+Hafnarfjörður" target="_blank">Fjörukráin (Viking Village)</a> — hotel/ristorante permanente a tema vichingo. Ottimo per una birra o una foto</span></li>
+        <li class="attivita-item"><span class="att-ora">15:00</span><span class="att-testo">🌋 <a class="place-link" href="https://maps.google.com/?q=Kerið+volcanic+crater+Iceland" target="_blank">Cratere Kerið</a> <a class="parka-link" href="https://www.parka.is/?lat=64.0415&lng=-20.8854&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a> — cratere vulcanico circolare con lago turchese. Pareti di terra rossa: contrasto cromatico pazzesco</span></li>
+        <li class="attivita-item"><span class="att-ora">17:00</span><span class="att-testo">♨️ <a class="place-link" href="https://maps.google.com/?q=Secret+Lagoon+Fludir+Iceland" target="_blank">Secret Lagoon</a> <a class="parka-link" href="https://www.parka.is/?lat=64.1337&lng=-20.3072&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a> — la più antica piscina geotermale d'Islanda a Flúðir, atmosfera autentica (Gamla Laugin, ~3.500 ISK)</span></li>
+        <li class="attivita-item"><span class="att-ora">20:00</span><span class="att-testo">🍽 Cena in capitale — <a class="place-link" href="https://maps.google.com/?q=Grillmarkaðurinn+Reykjavík" target="_blank">Grillmarkaðurinn</a> (budget ~200€)</span></li>
+      </ul>
+      <div class="pernottamento">🛏 <div><strong><a class="place-link" href="https://maps.google.com/?q=Hotel+Aska+29A+Skipholt+Reykjavik" target="_blank">Hotel Aska</a></strong>29A Skipholt, 105 Reykjavík</div></div>
+    </div>
+  </div>
+
+  <!-- G7 -->
+  <div class="giorno-card" onclick="toggleDay(this)">
+    <div class="giorno-header">
+      <div class="giorno-num">7</div>
+      <div class="giorno-meta">
+        <div class="giorno-data">Mercoledì 17 Giugno</div>
+        <div class="giorno-title">Festa Nazionale 🎉</div>
+      </div>
+      <span class="giorno-badge badge-festa">Festa</span>
+    </div>
+    <div class="giorno-body">
+      <div class="giorno-percorso">🚶 Tutto a piedi nel centro di Reykjavík</div>
+      <ul class="attivita-list">
+        <li class="attivita-item"><span class="att-ora">Todo</span><span class="att-testo">🇮🇸 Giorno dell'Indipendenza Islandese! Parate, concerti e allegria dei locali per le strade. Momento perfetto per gli ultimi souvenir e una buona cena</span></li>
+      </ul>
+      <div class="pernottamento">🛏 <div><strong><a class="place-link" href="https://maps.google.com/?q=Hotel+Aska+29A+Skipholt+Reykjavik" target="_blank">Hotel Aska</a></strong>29A Skipholt, 105 Reykjavík</div></div>
+    </div>
+  </div>
+
+  <!-- G8 -->
+  <div class="giorno-card" onclick="toggleDay(this)">
+    <div class="giorno-header">
+      <div class="giorno-num">8</div>
+      <div class="giorno-meta">
+        <div class="giorno-data">Giovedì 18 Giugno</div>
+        <div class="giorno-title">Rientro a Milano</div>
+      </div>
+      <span class="giorno-badge badge-city">Partenza</span>
+    </div>
+    <div class="giorno-body">
+      <div class="giorno-percorso">🚗 Reykjavík → Aeroporto Keflavík (60 km)</div>
+      <ul class="attivita-list">
+        <li class="attivita-item"><span class="att-ora">08:00</span><span class="att-testo">Riconsegna auto Blue Car (Drop-off 08:00 — Keflavík International Airport)</span></li>
+        <li class="attivita-item"><span class="att-ora">10:15</span><span class="att-testo">✈️ Volo EJU3970 Keflavík → Milano Malpensa</span></li>
+        <li class="attivita-item"><span class="att-ora">16:30</span><span class="att-testo">🏠 Atterraggio a Milano Malpensa</span></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ========== KM ========== -->
+<div id="tab-km" class="tab-content">
+
+  <div class="stats-grid">
+    <div class="stat-box accent">
+      <div class="stat-val">1.385</div>
+      <div class="stat-label">km totali</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val">173</div>
+      <div class="stat-label">km/giorno</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val">8</div>
+      <div class="stat-label">giorni</div>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-box">
+      <div class="stat-val">111</div>
+      <div class="stat-label">litri stimati</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val">~2,16€</div>
+      <div class="stat-label">€/litro</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val">240€</div>
+      <div class="stat-label">costo totale</div>
+    </div>
+  </div>
+
+  <div class="km-bar-wrap">
+    <div class="km-bar-label"><span>Giorno più lungo: D4 (565 km)</span><span>40% del totale</span></div>
+    <div class="km-bar-bg"><div class="km-bar-fill" style="width:100%"></div></div>
+  </div>
+
+  <p class="section-label">Percorso giorno per giorno</p>
+
+  <div class="km-row">
+    <div class="km-day-badge">D1</div>
+    <div class="km-info">
+      <div class="km-tratta">Keflavík → Hafnarfjörður → Hella</div>
+      <div class="km-note">Arrivo e sistemazione</div>
+    </div>
+    <div><div class="km-val">110</div><div class="km-unit">km</div></div>
+  </div>
+  <div class="km-row">
+    <div class="km-day-badge">D2</div>
+    <div class="km-info">
+      <div class="km-tratta">Hella → Porto + Vestmannaeyjar</div>
+      <div class="km-note">70 km + 15 km sull'isola</div>
+    </div>
+    <div><div class="km-val">85</div><div class="km-unit">km</div></div>
+  </div>
+  <div class="km-row">
+    <div class="km-day-badge">D3</div>
+    <div class="km-info">
+      <div class="km-tratta">Hella → Seljalandsfoss → Vík</div>
+      <div class="km-note">Costa Sud e cascate</div>
+    </div>
+    <div><div class="km-val">115</div><div class="km-unit">km</div></div>
+  </div>
+  <div class="km-row" style="border: 1.5px solid var(--gold-light);">
+    <div class="km-day-badge" style="background:rgba(240,192,96,0.12);color:#f0c060;border:0.5px solid rgba(240,192,96,0.25);">D4</div>
+    <div class="km-info">
+      <div class="km-tratta">Vík → Jökulsárlón → Reykjavík</div>
+      <div class="km-note">⭐ Giornata più lunga (5h rientro)</div>
+    </div>
+    <div><div class="km-val">565</div><div class="km-unit">km</div></div>
+  </div>
+  <div class="km-row">
+    <div class="km-day-badge">D5</div>
+    <div class="km-info">
+      <div class="km-tratta">Reykjavík → Circolo d'Oro</div>
+      <div class="km-note">Þingvellir, Geysir, Gullfoss</div>
+    </div>
+    <div><div class="km-val">240</div><div class="km-unit">km</div></div>
+  </div>
+  <div class="km-row">
+    <div class="km-day-badge">D6</div>
+    <div class="km-info">
+      <div class="km-tratta">Reykjavík → Hafnarfjörður → Secret Lagoon</div>
+      <div class="km-note">Festival vichingo + terme</div>
+    </div>
+    <div><div class="km-val">210</div><div class="km-unit">km</div></div>
+  </div>
+  <div class="km-row">
+    <div class="km-day-badge">D7</div>
+    <div class="km-info">
+      <div class="km-tratta">Reykjavík (a piedi)</div>
+      <div class="km-note">Festa Nazionale — nessun KM in auto</div>
+    </div>
+    <div><div class="km-val">0</div><div class="km-unit">km</div></div>
+  </div>
+  <div class="km-row">
+    <div class="km-day-badge">D8</div>
+    <div class="km-info">
+      <div class="km-tratta">Reykjavík → Keflavík</div>
+      <div class="km-note">Rientro in aeroporto</div>
+    </div>
+    <div><div class="km-val">60</div><div class="km-unit">km</div></div>
+  </div>
+
+  <div class="info-note" style="margin-top:16px;">
+    💡 Stima benzina: (1.385 km / 100) × 8 L/100km = <strong>111 litri</strong>. Prezzo medio 320 ISK/litro (~2,16€). Aggiungere ~5% per deviazioni e manovre nei parcheggi.
+  </div>
+
+</div>
+
+<!-- ========== SPESE ========== -->
+<div id="tab-spese" class="tab-content">
+  <div id="spese-app"></div>
+</div>
+
+<!-- ========== INFO ========== -->
+<div id="tab-info" class="tab-content">
+
+  <!-- VIABILITÀ LIVE -->
+  <p class="section-label">Viabilità & Allerte in tempo reale</p>
+  <div class="viab-card" id="viab-alerts-card">
+    <div class="viab-header">
+      <div class="viab-title">⚠️ Allerte meteo</div>
+      <button class="viab-refresh" onclick="loadAlerts()">↻ Aggiorna</button>
+    </div>
+    <div id="viab-alerts"><div class="viab-loading">Caricamento allerte...</div></div>
+    <div class="viab-info" style="margin-top:10px;">
+      <div class="viab-info-title">🔗 Fonti ufficiali — Meteo</div>
+      <a class="place-link" href="https://en.vedur.is/alerts" target="_blank">en.vedur.is/alerts — Allerte in tempo reale</a>
+      <a class="place-link" href="https://safetravel.is" target="_blank">safetravel.is — Sicurezza viaggiatori</a>
+    </div>
+  </div>
+  <div class="viab-card" id="viab-roads-card">
+    <div class="viab-header">
+      <div class="viab-title">🛣 Strade chiuse / limitazioni</div>
+      <button class="viab-refresh" onclick="loadRoads()">↻ Aggiorna</button>
+    </div>
+    <div id="viab-roads"><div class="viab-loading">Caricamento stato strade...</div></div>
+    <div class="viab-ts" id="viab-ts"></div>
+    <div class="viab-info" style="margin-top:10px;">
+      <div class="viab-info-title">🔗 Fonti ufficiali — Strade</div>
+      <a class="place-link" href="https://www.road.is/travel-info/conditions-on-mountain-roads/" target="_blank">road.is — Stato strade islandesi</a>
+      <a class="place-link" href="https://umferd.is" target="_blank">umferd.is — Mappa viabilità interattiva</a>
+    </div>
+  </div>
+
+  <p class="section-label">Voli</p>
+  <div class="volo-card">
+    <div>
+      <div class="volo-dir">Andata</div>
+      <div class="volo-route">MXP → KEF</div>
+      <div class="volo-details">Gio 11 Giu · 07:00 → 09:25 · Posti 23A/23B</div>
+    </div>
+    <div class="volo-num">EJU3969</div>
+  </div>
+  <div class="volo-card">
+    <div>
+      <div class="volo-dir">Ritorno</div>
+      <div class="volo-route">KEF → MXP</div>
+      <div class="volo-details">Gio 18 Giu · 10:15 → 16:30 · Posti 23A/23B</div>
+    </div>
+    <div class="volo-num">EJU3970</div>
+  </div>
+
+  <p class="section-label" style="margin-top:20px;">Info pratiche</p>
+  <div class="info-card">
+    <div class="info-card-title">💰 Valuta e costi</div>
+    <div class="info-row"><span class="info-key">Valuta</span><span class="info-val">ISK — Corona Islandese</span></div>
+    <div class="info-row"><span class="info-key">Cambio (stimato)</span><span class="info-val">~150 ISK = 1€</span></div>
+    <div class="info-row"><span class="info-key">Benzina</span><span class="info-val">~320 ISK/litro (~2,16€)</span></div>
+    <div class="info-row"><span class="info-key">Parcheggio Þingvellir</span><span class="info-val">~1.000 ISK (app Parka.is)</span></div>
+  </div>
+
+  <div class="info-card">
+    <div class="info-card-title">🌤 Meteo e Natura</div>
+    <div class="info-row"><span class="info-key">Temperatura giugno</span><span class="info-val">10–15°C</span></div>
+    <div class="info-row"><span class="info-key">Tramonto (giugno)</span><span class="info-val">~23:30 (quasi notte bianca)</span></div>
+    <div class="info-row"><span class="info-key">Puffin (Stórhöfði)</span><span class="info-val">maggio–agosto ✓</span></div>
+    <div class="info-row"><span class="info-key">Festival Vichingo</span><span class="info-val">16–17 Giugno ✓</span></div>
+    <div class="info-row"><span class="info-key">Festa Nazionale</span><span class="info-val">17 Giugno 🇮🇸</span></div>
+  </div>
+
+  <div class="info-card">
+    <div class="info-card-title">🚨 Emergenze e sicurezza</div>
+    <div class="info-row"><span class="info-key">Emergenze</span><span class="info-val"><a class="emergency-link" href="tel:112">112</a></span></div>
+    <div class="info-row"><span class="info-key">Meteo strade</span><span class="info-val">Road.is</span></div>
+    <div class="info-row"><span class="info-key">F-Roads</span><span class="info-val">Verificare SEMPRE prima</span></div>
+    <div class="info-row"><span class="info-key">Dacia Duster Booking</span><span class="info-val">#YT5XRO</span></div>
+    <div class="info-note" style="margin-top:10px;">
+      ⚠️ A Reynisfjara attenzione alle <strong>sneaker waves</strong> — onde improvvise e pericolose. Non avvicinarsi mai troppo all'acqua.
+    </div>
+  </div>
+
+</div>
+
+<!-- ========== METEO ========== -->
+<div id="tab-meteo" class="tab-content">
+  <p class="section-label">Previsioni per il tuo viaggio</p>
+  <div id="meteo-container">
+    <div class="meteo-loading">⏳ Caricamento previsioni...</div>
+  </div>
+  <p class="meteo-note">Fonte: Open-Meteo · Dati aggiornati in tempo reale</p>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" onclick="showTab('itinerario')">
+    <span class="n-icon">🗺</span>Piano
+  </button>
+  <button class="nav-btn" onclick="showTab('km')">
+    <span class="n-icon">🚗</span>Km
+  </button>
+  <button class="nav-btn" onclick="showTab('spese')">
+    <span class="n-icon">💶</span>Spese
+  </button>
+  <button class="nav-btn" onclick="showTab('meteo')">
+    <span class="n-icon">🌤</span>Meteo
+  </button>
+  <button class="nav-btn" onclick="showTab('info')">
+    <span class="n-icon">ℹ️</span>Info
+  </button>
+</nav>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn, .nav-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  document.querySelectorAll('[onclick="showTab(\'' + name + '\')"]').forEach(el => el.classList.add('active'));
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+  if (name === 'meteo' && !window.meteoLoaded) loadMeteo();
+  if (name === 'info'  && !window.viabLoaded)  { window.viabLoaded = true; loadViab(); }
+  if (name === 'spese') spRender();
+}
+
+// ===== VIABILITÀ LIVE =====
+const STRADE_ITINERARIO = ['1','26','35','36','37','39','249','254','427'];
+// ─── PROXY CONFIG ─────────────────────────────────────────────────
+// Aggiorna con l'URL del tuo server dopo aver caricato proxy.php
+const PROXY_URL = 'https://www.fantadal.com/wp-content/themes/fantadal/func/isl-proxy.php';
+const PROXY_KEY = 'islanda2026-pippo-pluto';
+// ──────────────────────────────────────────────────────────────────
+
+async function fetchProxy(type) {
+  const url = `${PROXY_URL}?type=${type}&key=${PROXY_KEY}`;
+  const res = await fetchWithTimeout(url, {}, 12000);
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || 'HTTP ' + res.status);
+  }
+  const wrapper = await res.json();
+  if (!wrapper.ok) throw new Error(wrapper.error || 'Risposta non valida');
+  return wrapper.data;
+}
+
+const VIAB_LINKS_METEO = `<div class="viab-info">
+  <div class="viab-info-title">🔗 Fonti ufficiali — Meteo</div>
+  <a class="place-link" href="https://en.vedur.is/weather/forecasts/areas/" target="_blank">en.vedur.is — Allerte meteo ufficiali</a>
+  <a class="place-link" href="https://safetravel.is" target="_blank">safetravel.is — Sicurezza viaggiatori</a>
+</div>`;
+
+const VIAB_LINKS_STRADE = `<div class="viab-info">
+  <div class="viab-info-title">🔗 Fonti ufficiali — Strade</div>
+  <a class="place-link" href="https://www.road.is/travel-info/conditions-on-mountain-roads/" target="_blank">road.is — Stato strade in tempo reale</a>
+  <a class="place-link" href="https://umferd.is" target="_blank">umferd.is — Mappa viabilità interattiva</a>
+</div>`;
+
+async function loadViab() { loadAlerts(); loadRoads(); }
+
+function viabError(motivo, links) {
+  return `<div class="viab-error">
+    <div class="viab-error-title">⚠ Impossibile caricare i dati</div>
+    <div class="viab-error-reason">Motivo: ${motivo}</div>
+  </div>${links}`;
+}
+
+function viabRow(icon, sev, label, title, desc) {
+  // sev: 'red' | 'yellow' | 'green' | 'gray'
+  return `<div class="viab-row sev-${sev}">
+    <div class="viab-row-icon">${icon}</div>
+    <div class="viab-row-body">
+      ${label ? `<div class="viab-row-label">${label}</div>` : ''}
+      <div class="viab-row-title">${title}</div>
+      ${desc ? `<div class="viab-row-desc">${desc}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+function fetchWithTimeout(url, opts, ms = 8000) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), ms);
+  return fetch(url, { ...opts, signal: ctrl.signal })
+    .finally(() => clearTimeout(timer));
+}
+
+async function loadAlerts() {
+  const el = document.getElementById('viab-alerts');
+  if (!el) return;
+  el.innerHTML = '<div class="viab-loading">⏳ Caricamento allerte meteo...</div>';
+  try {
+    const data = await fetchProxy('meteo');
+    // Il proxy PHP torna { ok, count, data: [{title, desc, severity, event, areaDesc}] }
+    const items = Array.isArray(data) ? data : (data.data || data.features || data.items || []);
+
+    if (!items.length) {
+      el.innerHTML = viabRow('✅', 'green', 'Veðurstofa Íslands', 'Nessuna allerta attiva', 'Condizioni meteo nella norma su tutto il territorio islandese');
+      return;
+    }
+
+    let html = '';
+    items.slice(0, 6).forEach(item => {
+      const sev   = (item.severity || item.level || '').toLowerCase();
+      const icon  = sev.includes('extreme') ? '🔴' : sev.includes('severe') ? '🟠' : '🟡';
+      const color = sev.includes('extreme') || sev.includes('severe') ? 'red' : 'yellow';
+      const title = item.event || item.title || 'Allerta meteo';
+      const area  = item.areaDesc || 'Islanda';
+      const desc  = item.desc ? String(item.desc).replace(/<[^>]+>/g, '').substring(0, 200) : null;
+      html += viabRow(icon, color, area, title, desc);
+    });
+    el.innerHTML = html;
+  } catch(e) {
+    const motivo = e.name === 'AbortError' ? 'Timeout (>8s)' :
+                   e.message.includes('Failed to fetch') ? 'Rete non raggiungibile' :
+                   e.message || 'Errore sconosciuto';
+    el.innerHTML = viabError(motivo, '');
+  }
+}
+
+async function loadRoads() {
+  const el = document.getElementById('viab-roads');
+  const ts = document.getElementById('viab-ts');
+  if (!el) return;
+  el.innerHTML = '<div class="viab-loading">⏳ Caricamento stato strade...</div>';
+  try {
+    const data = await fetchProxy('strade');
+    let roads = Array.isArray(data) ? data : (data.Roads || data.roads || data.items || Object.values(data));
+    roads = roads.filter(r => r && typeof r === 'object');
+
+    const relevant = roads.filter(r => {
+      const num  = String(r.Road || r.RoadNumber || r.road || r.id || '');
+      const stat = String(r.Status || r.status || r.Condition || r.condition || '').toLowerCase();
+      return STRADE_ITINERARIO.some(s => num === s) ||
+             stat.includes('clos') || stat.includes('difficult') || stat.includes('impass');
+    }).slice(0, 12);
+
+    if (!relevant.length) {
+      el.innerHTML = viabRow('✅', 'green', 'Vegagerðin — Road Authority', 'Nessuna chiusura segnalata', 'Tutte le strade del tuo itinerario risultano aperte');
+    } else {
+      el.innerHTML = relevant.map(r => {
+        const num   = r.Road || r.RoadNumber || r.road || r.id || '?';
+        const name  = r.Name || r.name || r.Description || r.description || '';
+        const stat  = String(r.Status || r.status || r.Condition || r.condition || 'N/D');
+        const sl    = stat.toLowerCase();
+        const sev   = sl.includes('clos') || sl.includes('impass') ? 'red' :
+                      sl.includes('diff') ? 'yellow' :
+                      sl.includes('open') ? 'green' : 'gray';
+        const icon  = sev === 'red' ? '🚫' : sev === 'yellow' ? '⚠️' : sev === 'green' ? '✅' : '❓';
+        const label = `Strada ${num}${name ? ' — ' + name : ''}`;
+        const title = sl.includes('clos') || sl.includes('impass') ? 'Chiusa' :
+                      sl.includes('diff') ? 'Difficoltà / limitazioni' :
+                      sl.includes('open') ? 'Aperta' : stat;
+        return viabRow(icon, sev, label, title, null);
+      }).join('');
+    }
+    if (ts) ts.textContent = 'Aggiornato alle ' + new Date().toLocaleTimeString('it-IT');
+  } catch(e) {
+    const motivo = e.name === 'AbortError' ? 'Timeout (>8s)' :
+                   e.message.includes('Failed to fetch') ? 'Rete non raggiungibile / CORS' :
+                   e.message.includes('HTTP') ? 'Server error: ' + e.message :
+                   e.message || 'Errore sconosciuto';
+    el.innerHTML = viabError(motivo, '');
+    if (ts) ts.textContent = 'Errore · ' + new Date().toLocaleTimeString('it-IT');
+  }
+}
+
+// Carica quando si apre Info
+// (caricamento viabilità gestito direttamente in showTab)
+const ISK_EUR = 0.00675;
+const EUR_ISK = 148;
+
+const BASE_SPESE = [
+  { id:'b1',  cat:'alloggi',    name:'Arhus Cottage and Camping',    note:'D1–D2 · Hella · Bungalow Standard', eur:340,    isk:null  },
+  { id:'b2',  cat:'alloggi',    name:'Hotel Katla by Keahotels',     note:'D3 · Vík · Camera Matrimoniale',    eur:369,    isk:null  },
+  { id:'b3',  cat:'alloggi',    name:'Hotel Aska',                   note:'D4–D7 · Reykjavík · 4 notti King', eur:654.79, isk:null  },
+  { id:'b4',  cat:'voli',       name:'MXP → KEF (2 adulti)',         note:'EJU3969 · 11 Giu 07:00–09:25',     eur:155.70, isk:null  },
+  { id:'b5',  cat:'voli',       name:'KEF → MXP (2 adulti)',         note:'EJU3970 · 18 Giu 10:15–16:30',     eur:228.70, isk:null  },
+  { id:'b6',  cat:'voli',       name:'Bagagli A/R (2 pax)',          note:'Hold baggage + priority',           eur:269.41, isk:null  },
+  { id:'b7',  cat:'auto',       name:'Blue Car Rental – Duster',     note:'Keflavík · 11→18 Giu · #YT5XRO',  eur:null,   isk:114823 },
+  { id:'b8',  cat:'attrazioni', name:'LAVA Centre',                  note:'D1 · Hvolsvöllur',                 eur:72,     isk:null  },
+  { id:'b9',  cat:'attrazioni', name:'Traghetto Vestmannaeyjar A/R', note:'D2 · ore 10 e ore 18',             eur:null,   isk:18200 },
+  { id:'b10', cat:'attrazioni', name:'Battello Jökulsárlón',         note:'D4 · prenotato',                   eur:null,   isk:14200 },
+  { id:'b11', cat:'attrazioni', name:'Secret Lagoon (Gamla Laugin)', note:'D6 · Flúðir',                      eur:null,   isk:3500  },
+  { id:'b12', cat:'varie',      name:'Benzina (1.385 km)',           note:'~111 litri × 320 ISK/L',           eur:240,    isk:null  },
+  { id:'b13', cat:'varie',      name:'Supermercati',                 note:'Spesa viveri per la settimana',    eur:100,    isk:null  },
+  { id:'b14', cat:'varie',      name:'Ristoranti & pranzi',          note:'Stima cene fuori',                 eur:200,    isk:null  },
+];
+
+const CATS = [
+  { id:'alloggi',    label:'🛏 Alloggi' },
+  { id:'voli',       label:'✈️ Voli' },
+  { id:'auto',       label:'🚗 Auto' },
+  { id:'attrazioni', label:'🎟 Attrazioni' },
+  { id:'varie',      label:'⛽ Varie & Cibo' },
+];
+
+function spLoad() {
+  try { return JSON.parse(localStorage.getItem('islanda_spese_v2') || '{"paid":{},"custom":[]}'); }
+  catch(e) { return { paid:{}, custom:[] }; }
+}
+function spSave(s) {
+  try { localStorage.setItem('islanda_spese_v2', JSON.stringify(s)); } catch(e) {}
+}
+function spToEur(item) {
+  if (item.eur != null) return item.eur;
+  if (item.isk != null) return item.isk * ISK_EUR;
+  return 0;
+}
+function spFmt(item) {
+  if (item.isk != null && item.eur == null)
+    return { text: item.isk.toLocaleString('it') + ' ISK', isIsk: true };
+  const e = item.eur ?? Math.round(item.isk * ISK_EUR * 100)/100;
+  return { text: e.toLocaleString('it',{minimumFractionDigits:0,maximumFractionDigits:2})+'€', isIsk:false };
+}
+function spFmtE(v) { return v.toLocaleString('it',{minimumFractionDigits:0,maximumFractionDigits:0}); }
+function spFmtISK(v) { return Math.round(v).toLocaleString('it'); }
+
+// Calcola totali separati EUR e ISK (senza conversione forzata)
+function spCalcTotals(items) {
+  let eur = 0, isk = 0;
+  items.forEach(i => {
+    if (i.isk != null && i.eur == null) isk += i.isk;
+    else eur += (i.eur ?? 0);
+  });
+  return { eur, isk };
+}
+function spTotLabel(eur, isk) {
+  const parts = [];
+  if (eur > 0) parts.push(spFmtE(eur) + '€');
+  if (isk > 0) parts.push(spFmtISK(isk) + ' ISK');
+  return parts.join(' + ') || '0€';
+}
+
+function spRender() {
+  const s = spLoad();
+  const all = [
+    ...BASE_SPESE.map(b => ({...b, paid:!!s.paid[b.id], isCustom:false})),
+    ...s.custom.map(c  => ({...c, paid:!!s.paid[c.id], isCustom:true })),
+  ];
+
+  const totAll  = spCalcTotals(all);
+  const totPaid = spCalcTotals(all.filter(i => i.paid));
+  const totDue  = { eur: totAll.eur - totPaid.eur, isk: totAll.isk - totPaid.isk };
+
+  // Equivalente EUR totale (per il numero grande in hero)
+  const totalEurEq = totAll.eur + totAll.isk * ISK_EUR;
+
+  let html = `
+  <div class="sp-hero">
+    <div class="sp-hero-label">Spesa totale stimata</div>
+    <div class="sp-hero-val">${spFmtE(totalEurEq)}€</div>
+    <div class="sp-hero-sub">1 ISK = ${ISK_EUR}€ · 1€ = ${EUR_ISK} ISK</div>
+    <div class="sp-mini-grid">
+      <div class="sp-mini">
+        <div class="sp-mini-label">Totale EUR</div>
+        <div class="sp-mini-val">${spFmtE(totAll.eur)}€</div>
+      </div>
+      <div class="sp-mini">
+        <div class="sp-mini-label">Totale ISK</div>
+        <div class="sp-mini-val">${spFmtISK(totAll.isk)}</div>
+      </div>
+    </div>
+    <div class="sp-mini-grid" style="margin-top:8px;">
+      <div class="sp-mini">
+        <div class="sp-mini-label">Pagato ✓</div>
+        <div class="sp-mini-val paid" style="font-size:14px;">${spTotLabel(totPaid.eur, totPaid.isk)}</div>
+      </div>
+      <div class="sp-mini">
+        <div class="sp-mini-label">Da pagare</div>
+        <div class="sp-mini-val due" style="font-size:14px;">${spTotLabel(totDue.eur, totDue.isk)}</div>
+      </div>
+    </div>
+  </div>`;
+
+  CATS.forEach(cat => {
+    const items = all.filter(i => i.cat === cat.id);
+    if (!items.length) return;
+    const ct = spCalcTotals(items);
+    const catTotLabel = spTotLabel(ct.eur, ct.isk);
+
+    html += `<div class="sp-cat">
+      <div class="sp-cat-title">
+        <span>${cat.label}</span>
+        <button class="sp-add-btn" onclick="spOpenForm('${cat.id}')">+ Aggiungi</button>
+      </div>
+      <div class="sp-form" id="form-${cat.id}">
+        <div class="sp-form-row">
+          <input class="sp-input" id="fi-name-${cat.id}" placeholder="Nome voce" />
+        </div>
+        <div class="sp-form-row">
+          <input class="sp-input" id="fi-note-${cat.id}" placeholder="Nota (opzionale)" />
+        </div>
+        <div class="sp-form-row">
+          <input class="sp-input" id="fi-amt-${cat.id}" type="number" min="0" placeholder="Importo" style="max-width:110px;" />
+          <button class="sp-currency-btn active" id="fb-eur-${cat.id}" onclick="spSetCur('${cat.id}','EUR')">€ EUR</button>
+          <button class="sp-currency-btn"        id="fb-isk-${cat.id}" onclick="spSetCur('${cat.id}','ISK')">ISK</button>
+        </div>
+        <div class="sp-form-row">
+          <button class="sp-save-btn"   onclick="spSaveItem('${cat.id}')">✓ Salva</button>
+          <button class="sp-cancel-btn" onclick="spCloseForm('${cat.id}')">Annulla</button>
+        </div>
+      </div>`;
+
+    items.forEach(item => {
+      const amt = spFmt(item);
+      html += `
+      <div class="sp-item ${item.paid?'is-paid':''} ${item.isCustom?'is-custom':''}">
+        <label class="sp-toggle" title="${item.paid?'Pagato':'Da pagare'}">
+          <input type="checkbox" ${item.paid?'checked':''} onchange="spToggle('${item.id}',this.checked)">
+          <span class="sp-toggle-slider"></span>
+        </label>
+        <div class="sp-item-info">
+          <div class="sp-item-name ${item.paid?'paid-name':''}">${item.name}</div>
+          ${item.note ? `<div class="sp-item-note">${item.note}</div>` : ''}
+        </div>
+        <div class="sp-item-amount ${amt.isIsk?'isk':''} ${item.paid&&!amt.isIsk?'paid-amount':''}">${amt.text}</div>
+        ${item.isCustom ? `<button class="sp-del-btn" onclick="spDel('${item.id}')">✕</button>` : ''}
+      </div>`;
+    });
+
+    html += `<div class="sp-cat-total"><span>Totale ${cat.label.replace(/^\S+\s/,'')}</span><strong>${catTotLabel}</strong></div></div>`;
+  });
+
+  html += `<p class="sp-rate-note">Conversione ISK→EUR automatica · aggiornare il tasso in caso di variazioni</p>`;
+  document.getElementById('spese-app').innerHTML = html;
+}
+
+function spToggle(id, checked) {
+  const s = spLoad();
+  checked ? (s.paid[id]=true) : delete s.paid[id];
+  spSave(s); spRender();
+}
+function spOpenForm(cat) {
+  document.querySelectorAll('.sp-form').forEach(f=>f.classList.remove('open'));
+  document.getElementById('form-'+cat).classList.add('open');
+  if (!window._spCur) window._spCur = {};
+  window._spCur[cat] = window._spCur[cat] || 'EUR';
+  spSetCur(cat, window._spCur[cat]);
+}
+function spCloseForm(cat) { document.getElementById('form-'+cat).classList.remove('open'); }
+function spSetCur(cat, cur) {
+  if (!window._spCur) window._spCur = {};
+  window._spCur[cat] = cur;
+  const be = document.getElementById('fb-eur-'+cat);
+  const bi = document.getElementById('fb-isk-'+cat);
+  if (!be||!bi) return;
+  be.classList.toggle('active', cur==='EUR');
+  bi.classList.toggle('active', cur==='ISK');
+}
+function spSaveItem(cat) {
+  const name   = (document.getElementById('fi-name-'+cat)?.value||'').trim();
+  const note   = (document.getElementById('fi-note-'+cat)?.value||'').trim();
+  const amount = parseFloat(document.getElementById('fi-amt-'+cat)?.value);
+  const cur    = window._spCur?.[cat] || 'EUR';
+  if (!name || isNaN(amount) || amount<=0) { alert('Inserisci nome e importo validi'); return; }
+  const s = spLoad();
+  s.custom.push({ id:'c'+Date.now(), cat, name, note, eur:cur==='EUR'?amount:null, isk:cur==='ISK'?amount:null });
+  spSave(s); spCloseForm(cat); spRender();
+}
+function spDel(id) {
+  const s = spLoad();
+  s.custom = s.custom.filter(c=>c.id!==id);
+  delete s.paid[id];
+  spSave(s); spRender();
+}
+
+function toggleDay(card) {
+  const body = card.querySelector('.giorno-body');
+  const isOpen = body.classList.contains('open');
+  document.querySelectorAll('.giorno-body.open').forEach(b => b.classList.remove('open'));
+  if (!isOpen) body.classList.add('open');
+}
+
+const GIORNI_VIAGGIO = [
+  { num: 1, data: '2026-06-11', label: 'Gio 11 Giu', titolo: 'Arrivo e direzione Sud', lat: 63.83, lon: -20.37 },
+  { num: 2, data: '2026-06-12', label: 'Ven 12 Giu', titolo: 'Isole dei Puffin', lat: 63.44, lon: -20.27 },
+  { num: 3, data: '2026-06-13', label: 'Sab 13 Giu', titolo: 'Cascate e Spiaggia Nera', lat: 63.41, lon: -18.93 },
+  { num: 4, data: '2026-06-14', label: 'Dom 14 Giu', titolo: 'Iceberg e Diamanti', lat: 64.05, lon: -16.18 },
+  { num: 5, data: '2026-06-15', label: 'Lun 15 Giu', titolo: 'Il Circolo d\'Oro', lat: 64.26, lon: -20.60 },
+  { num: 6, data: '2026-06-16', label: 'Mar 16 Giu', titolo: 'Festival Vichingo e Secret Lagoon', lat: 63.88, lon: -22.45 },
+  { num: 7, data: '2026-06-17', label: 'Mer 17 Giu', titolo: 'Festa Nazionale', lat: 64.14, lon: -21.94 },
+  { num: 8, data: '2026-06-18', label: 'Gio 18 Giu', titolo: 'Rientro a Milano', lat: 63.99, lon: -22.62 },
+];
+
+const WMO_DESC = {
+  0: ['☀️','Sole'],1:['🌤','Per lo più sereno'],2:['⛅','Parzialmente nuvoloso'],3:['☁️','Coperto'],
+  45:['🌫','Nebbia'],48:['🌫','Nebbia gelata'],51:['🌦','Pioggerella leggera'],53:['🌦','Pioggerella'],
+  55:['🌧','Pioggerella intensa'],61:['🌧','Pioggia leggera'],63:['🌧','Pioggia'],65:['🌧','Pioggia forte'],
+  71:['🌨','Neve leggera'],73:['🌨','Neve'],75:['❄️','Neve forte'],77:['🌨','Granelli di neve'],
+  80:['🌦','Rovesci leggeri'],81:['🌧','Rovesci'],82:['⛈','Rovesci forti'],
+  85:['🌨','Rovesci di neve'],86:['❄️','Rovesci di neve forti'],
+  95:['⛈','Temporale'],96:['⛈','Temporale con grandine'],99:['⛈','Temporale forte'],
+};
+
+
+// Dati climatici storici islandesi per giugno (medie 30 anni, fonte: met.is)
+// Sud Islanda (Hella/Vík) vs Reykjavík — leggera variazione per zona
+const CLIMA_GIUGNO = {
+  sud:  { tmin: 6,  tmax: 12, wind: 28, rain: '2.1', icon: '⛅', desc: 'Variabile, possibili piogge' },
+  est:  { tmin: 5,  tmax: 11, wind: 22, rain: '1.8', icon: '🌦', desc: 'Fresco e nuvoloso' },
+  reyk: { tmin: 7,  tmax: 13, wind: 32, rain: '1.9', icon: '⛅', desc: 'Variabile, vento costante' },
+};
+const ZONA_GIORNO = ['sud','sud','sud','est','reyk','reyk','reyk','reyk'];
+
+async function loadMeteo() {
+  const container = document.getElementById('meteo-container');
+  if (!container) return;
+  container.innerHTML = '<div class="meteo-loading">⏳ Caricamento previsioni...</div>';
+
+  try {
+    const res = await fetchWithTimeout(
+      'https://seasonal-api.open-meteo.com/v1/seasonal?latitude=63.99&longitude=-22.62' +
+      '&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max' +
+      '&timezone=Atlantic%2FReykjavik&start_date=2026-06-11&end_date=2026-06-18' +
+      '&models=ecmwf_ifs04', {}, 10000
+    );
+    const data = await res.json();
+
+    if (data.daily && data.daily.time && data.daily.time.length > 0) {
+      let html = '';
+      GIORNI_VIAGGIO.forEach((g, i) => {
+        const zona = CLIMA_GIUGNO[ZONA_GIORNO[i]];
+        const tmax = data.daily.temperature_2m_max?.[i] != null ? Math.round(data.daily.temperature_2m_max[i]) : zona.tmax;
+        const tmin = data.daily.temperature_2m_min?.[i] != null ? Math.round(data.daily.temperature_2m_min[i]) : zona.tmin;
+        const wind = data.daily.windspeed_10m_max?.[i] != null ? Math.round(data.daily.windspeed_10m_max[i]) : zona.wind;
+        const rain = data.daily.precipitation_sum?.[i] != null ? data.daily.precipitation_sum[i].toFixed(1) : zona.rain;
+        html += renderMeteoCard(g, zona.icon, zona.desc, tmin, tmax, wind, rain, 'Stima stagionale ECMWF');
+      });
+      container.innerHTML = html + '<p class="meteo-note">⚠️ Previsioni a lungo termine (modello stagionale ECMWF) — affidabilità limitata a 2+ mesi</p>';
+      window.meteoLoaded = true;
+      return;
+    }
+  } catch(e) {
+    // API stagionale non disponibile — uso dati storici
+  }
+
+  // Fallback: dati climatici storici islandesi
+  let html = '';
+  GIORNI_VIAGGIO.forEach((g, i) => {
+    const c = CLIMA_GIUGNO[ZONA_GIORNO[i]];
+    html += renderMeteoCard(g, c.icon, c.desc, c.tmin, c.tmax, c.wind, c.rain, 'Media storica giugno');
+  });
+  container.innerHTML = html + '<p class="meteo-note">📊 Medie climatiche storiche per giugno in Islanda (fonte: Icelandic Met Office) — le previsioni precise saranno disponibili ~16 giorni prima della partenza</p>';
+  window.meteoLoaded = true;
+}
+
+function renderMeteoCard(g, icon, desc, tmin, tmax, wind, rain, fonte) {
+  return `
+    <div class="meteo-day-card">
+      <div class="meteo-day-num">${g.num}</div>
+      <div class="meteo-day-info">
+        <div class="meteo-day-data">${g.label} · ${g.titolo}</div>
+        <div class="meteo-day-desc">${desc}</div>
+        <div class="meteo-day-temps">${tmin}°–${tmax}°C · 💨 ${wind} km/h · 🌧 ${rain} mm · <em>${fonte}</em></div>
+      </div>
+      <div class="meteo-icon">${icon}</div>
+    </div>`;
+}
+</script>
+</body>
+</html>
