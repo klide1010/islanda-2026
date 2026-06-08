@@ -9,7 +9,43 @@
 <title>Islanda 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Iceland&family=Jura:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="manifest" id="app-manifest">
+<link rel="icon" id="fav-icon" type="image/svg+xml">
+<link rel="apple-touch-icon" id="apple-icon">
 <style>
+.install-fab{
+  position:fixed; z-index:201;
+  right:max(14px, calc(50% - 226px));
+  bottom:calc(72px + env(safe-area-inset-bottom));
+  display:flex; align-items:center; gap:8px;
+  padding:9px 15px 9px 9px;
+  background:#003897; color:#fff;
+  border:1px solid var(--gold); border-radius:999px;
+  font-family:var(--font-mono); font-size:12px; letter-spacing:.5px;
+  box-shadow:0 6px 22px rgba(0,0,0,.45), 0 0 0 3px rgba(240,192,96,.12);
+  cursor:pointer;
+  animation:fabIn .35s ease both, fabPulse 2.8s ease-in-out 1.2s infinite;
+}
+.install-fab[hidden]{ display:none; }
+.install-fab img{ width:26px; height:26px; border-radius:7px; display:block; }
+.install-fab b{ font-weight:600; }
+.install-fab:active{ transform:scale(.96); }
+@keyframes fabIn{ from{opacity:0; transform:translateY(14px) scale(.9);} to{opacity:1; transform:none;} }
+@keyframes fabPulse{
+  0%,100%{ box-shadow:0 6px 22px rgba(0,0,0,.45), 0 0 0 3px rgba(240,192,96,.12); }
+  50%{ box-shadow:0 6px 26px rgba(0,0,0,.5), 0 0 0 6px rgba(240,192,96,.22); }
+}
+.install-toast{
+  position:fixed; z-index:202; left:50%; transform:translateX(-50%);
+  bottom:calc(124px + env(safe-area-inset-bottom));
+  width:calc(100% - 40px); max-width:300px;
+  background:var(--card); color:#d0e8f0; border:0.5px solid var(--border2);
+  border-radius:12px; padding:12px 14px;
+  font-family:var(--font-mono); font-size:11px; line-height:1.6;
+  box-shadow:0 8px 30px rgba(0,0,0,.5);
+}
+.install-toast[hidden]{ display:none; }
+.install-toast b{ color:var(--ice); }
 :root {
   --ink: #050c14;
   --paper: #080e18;
@@ -1222,6 +1258,12 @@ a.parka-link svg { display: block; }
   </button>
 </nav>
 
+<button class="install-fab" id="install-btn" type="button" hidden aria-label="Installa l'app">
+  <img id="install-icon" alt="">
+  <b>Installa app</b>
+</button>
+<div class="install-toast" id="ios-hint" hidden></div>
+
 <script>
 function showTab(name) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -1680,6 +1722,123 @@ function renderMeteoCard(g, icon, desc, tmin, tmax, wind, rain, fonte) {
       <div class="meteo-icon">${icon}</div>
     </div>`;
 }
+</script>
+
+<script>
+/* ===== PWA: icona puffin + manifest + installazione Android/iOS ===== */
+(function(){
+  const PUFFIN_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="30%" r="85%">
+      <stop offset="0%" stop-color="#0b54b8"/><stop offset="55%" stop-color="#003897"/><stop offset="100%" stop-color="#00265f"/>
+    </radialGradient>
+    <linearGradient id="beak" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8a98a8"/><stop offset="30%" stop-color="#aab6c2"/>
+      <stop offset="33%" stop-color="#ffd24a"/><stop offset="55%" stop-color="#f8b21f"/>
+      <stop offset="58%" stop-color="#f3781d"/><stop offset="100%" stop-color="#e23c1c"/>
+    </linearGradient>
+    <linearGradient id="bodyG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#222933"/><stop offset="100%" stop-color="#0e1218"/>
+    </linearGradient>
+    <clipPath id="sil"><ellipse cx="256" cy="198" rx="110" ry="106"/><ellipse cx="256" cy="322" rx="124" ry="108"/></clipPath>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <ellipse cx="256" cy="150" rx="170" ry="120" fill="#ffffff" opacity="0.06"/>
+  <ellipse cx="256" cy="322" rx="124" ry="108" fill="url(#bodyG)"/>
+  <ellipse cx="256" cy="198" rx="110" ry="106" fill="url(#bodyG)"/>
+  <g clip-path="url(#sil)"><ellipse cx="256" cy="300" rx="88" ry="158" fill="#eef2f6"/></g>
+  <path d="M148 300 q-14 60 24 96 q-44 -18 -44 -70 q0 -18 20 -26z" fill="#0c1016" opacity="0.9"/>
+  <path d="M364 300 q14 60 -24 96 q44 -18 44 -70 q0 -18 -20 -26z" fill="#0c1016" opacity="0.9"/>
+  <path d="M198 196 l34 -8 l4 26 l-30 6z" fill="#9aa6b2" opacity="0.85"/>
+  <path d="M314 196 l-34 -8 l-4 26 l30 6z" fill="#9aa6b2" opacity="0.85"/>
+  <circle cx="217" cy="214" r="13" fill="#d6452a"/><circle cx="295" cy="214" r="13" fill="#d6452a"/>
+  <circle cx="217" cy="214" r="8.5" fill="#0b0e12"/><circle cx="295" cy="214" r="8.5" fill="#0b0e12"/>
+  <circle cx="220" cy="211" r="2.6" fill="#fff"/><circle cx="298" cy="211" r="2.6" fill="#fff"/>
+  <path d="M212 250 Q256 236 300 250 L300 258 Q300 300 270 344 Q256 360 242 344 Q212 300 212 258 Z" fill="url(#beak)" stroke="#7a3a14" stroke-width="2" stroke-opacity="0.4"/>
+  <path d="M214 280 Q256 272 298 280" fill="none" stroke="#caa11a" stroke-width="3" stroke-opacity="0.5"/>
+  <path d="M256 256 L256 348" stroke="#7a3a14" stroke-width="2" stroke-opacity="0.25" fill="none"/>
+  <ellipse cx="240" cy="300" rx="3.4" ry="6" fill="#7a3a14" opacity="0.45"/>
+  <g fill="#f08a1e">
+    <path d="M226 412 q-4 22 -22 28 q22 6 30 -6 q4 -10 0 -22z"/>
+    <path d="M286 412 q4 22 22 28 q-22 6 -30 -6 q-4 -10 0 -22z"/>
+  </g>
+</svg>`;
+
+  function rasterize(svg){
+    return new Promise((resolve)=>{
+      const url = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
+      const img = new Image();
+      img.onload = ()=>{
+        const make = (s)=>{
+          try {
+            const c = document.createElement('canvas'); c.width = c.height = s;
+            c.getContext('2d').drawImage(img, 0, 0, s, s);
+            return c.toDataURL('image/png');
+          } catch(e){ return url; }
+        };
+        resolve({ svg:url, p192:make(192), p512:make(512) });
+      };
+      img.onerror = ()=> resolve({ svg:url, p192:url, p512:url });
+      img.src = url;
+    });
+  }
+
+  const isStandalone = ()=> window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  const isIOS = ()=> /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+  const btn  = document.getElementById('install-btn');
+  const hint = document.getElementById('ios-hint');
+  let deferredPrompt = null;
+
+  rasterize(PUFFIN_SVG).then(ic=>{
+    document.getElementById('fav-icon').href     = ic.svg;
+    document.getElementById('apple-icon').href   = ic.p192;
+    document.getElementById('install-icon').src  = ic.svg;
+
+    const manifest = {
+      name:"Islanda 2026", short_name:"Islanda",
+      description:"Piano viaggio Islanda · 11–18 Giugno 2026",
+      start_url: location.href, display:"standalone", orientation:"portrait",
+      background_color:"#080e18", theme_color:"#003897", lang:"it",
+      icons:[
+        { src:ic.p192, sizes:"192x192", type:"image/png", purpose:"any" },
+        { src:ic.p512, sizes:"512x512", type:"image/png", purpose:"any" },
+        { src:ic.p512, sizes:"512x512", type:"image/png", purpose:"maskable" }
+      ]
+    };
+    const burl = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type:"application/manifest+json" }));
+    document.getElementById('app-manifest').href = burl;
+
+    // iOS non emette 'beforeinstallprompt' → mostro il pulsante con istruzioni manuali
+    if (isIOS() && !isStandalone() && btn){
+      btn.hidden = false;
+      btn.addEventListener('click', ()=>{
+        hint.innerHTML = 'Per installare: tocca <b>Condividi</b> ⬆️, poi <b>"Aggiungi alla schermata Home"</b>.';
+        hint.hidden = false;
+        clearTimeout(window._hintT); window._hintT = setTimeout(()=> hint.hidden = true, 6500);
+      });
+    }
+  });
+
+  // Android / Chrome: prompt automatico di installazione
+  window.addEventListener('beforeinstallprompt', (e)=>{
+    e.preventDefault();
+    deferredPrompt = e;
+    if (!isStandalone() && btn) btn.hidden = false;
+  });
+
+  if (btn){
+    btn.addEventListener('click', async ()=>{
+      if (!deferredPrompt) return;            // iOS: gestito sopra
+      btn.disabled = true;
+      deferredPrompt.prompt();
+      try { await deferredPrompt.userChoice; } catch(e){}
+      deferredPrompt = null; btn.hidden = true; btn.disabled = false;
+    });
+  }
+
+  window.addEventListener('appinstalled', ()=>{ if(btn) btn.hidden = true; deferredPrompt = null; });
+})();
 </script>
 </body>
 </html>
