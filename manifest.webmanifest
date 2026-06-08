@@ -1,0 +1,17 @@
+{
+  "name": "Islanda 2026",
+  "short_name": "Islanda",
+  "description": "Piano viaggio Islanda · 11–18 Giugno 2026",
+  "start_url": "./islanda_2026.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#080e18",
+  "theme_color": "#003897",
+  "lang": "it",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
