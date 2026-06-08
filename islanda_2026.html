@@ -1618,40 +1618,53 @@ async function loadMeteo() {
   if (!container) return;
   container.innerHTML = '<div class="meteo-loading">⏳ Caricamento previsioni...</div>';
 
+  // Previsione REALE (Open-Meteo forecast standard): affidabile entro ~16 giorni.
+  // Richiede una posizione per ogni giorno (multi-località in una sola chiamata).
+  const lats = GIORNI_VIAGGIO.map(g => g.lat).join(',');
+  const lons = GIORNI_VIAGGIO.map(g => g.lon).join(',');
+
   try {
     const res = await fetchWithTimeout(
-      'https://seasonal-api.open-meteo.com/v1/seasonal?latitude=63.99&longitude=-22.62' +
-      '&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max' +
-      '&timezone=Atlantic%2FReykjavik&start_date=2026-06-11&end_date=2026-06-18' +
-      '&models=ecmwf_ifs04', {}, 10000
+      'https://api.open-meteo.com/v1/forecast?latitude=' + lats + '&longitude=' + lons +
+      '&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max' +
+      '&timezone=Atlantic%2FReykjavik&start_date=2026-06-11&end_date=2026-06-18', {}, 10000
     );
     const data = await res.json();
+    // Multi-località → array di oggetti; singola località → oggetto singolo
+    const locs = Array.isArray(data) ? data : [data];
 
-    if (data.daily && data.daily.time && data.daily.time.length > 0) {
+    if (locs[0] && locs[0].daily && locs[0].daily.time && locs[0].daily.time.length > 0) {
       let html = '';
       GIORNI_VIAGGIO.forEach((g, i) => {
+        const loc  = locs[i] || locs[0];
+        const d    = loc.daily || {};
+        let di = Array.isArray(d.time) ? d.time.indexOf(g.data) : -1;
+        if (di < 0) di = i; // ripiego sulla posizione
         const zona = CLIMA_GIUGNO[ZONA_GIORNO[i]];
-        const tmax = data.daily.temperature_2m_max?.[i] != null ? Math.round(data.daily.temperature_2m_max[i]) : zona.tmax;
-        const tmin = data.daily.temperature_2m_min?.[i] != null ? Math.round(data.daily.temperature_2m_min[i]) : zona.tmin;
-        const wind = data.daily.windspeed_10m_max?.[i] != null ? Math.round(data.daily.windspeed_10m_max[i]) : zona.wind;
-        const rain = data.daily.precipitation_sum?.[i] != null ? data.daily.precipitation_sum[i].toFixed(1) : zona.rain;
-        html += renderMeteoCard(g, zona.icon, zona.desc, tmin, tmax, wind, rain, 'Stima stagionale ECMWF');
+        const code = d.weathercode?.[di];
+        const wmo  = WMO_DESC[code] || [zona.icon, zona.desc];
+        const tmax = d.temperature_2m_max?.[di] != null ? Math.round(d.temperature_2m_max[di]) : zona.tmax;
+        const tmin = d.temperature_2m_min?.[di] != null ? Math.round(d.temperature_2m_min[di]) : zona.tmin;
+        const wind = d.windspeed_10m_max?.[di] != null ? Math.round(d.windspeed_10m_max[di]) : zona.wind;
+        const rain = d.precipitation_sum?.[di] != null ? d.precipitation_sum[di].toFixed(1) : zona.rain;
+        html += renderMeteoCard(g, wmo[0], wmo[1], tmin, tmax, wind, rain, 'Previsione Open-Meteo');
       });
-      container.innerHTML = html + '<p class="meteo-note">⚠️ Previsioni a lungo termine (modello stagionale ECMWF) — affidabilità limitata a 2+ mesi</p>';
+      const upd = new Date().toLocaleString('it-IT');
+      container.innerHTML = html + '<p class="meteo-note">✅ Previsioni reali (Open-Meteo) — aggiornate il ' + upd + '</p>';
       window.meteoLoaded = true;
       return;
     }
   } catch(e) {
-    // API stagionale non disponibile — uso dati storici
+    // Forecast non disponibile — uso dati storici
   }
 
-  // Fallback: dati climatici storici islandesi
+  // Fallback: dati climatici storici islandesi (se sei fuori dai 16 giorni o l'API non risponde)
   let html = '';
   GIORNI_VIAGGIO.forEach((g, i) => {
     const c = CLIMA_GIUGNO[ZONA_GIORNO[i]];
     html += renderMeteoCard(g, c.icon, c.desc, c.tmin, c.tmax, c.wind, c.rain, 'Media storica giugno');
   });
-  container.innerHTML = html + '<p class="meteo-note">📊 Medie climatiche storiche per giugno in Islanda (fonte: Icelandic Met Office) — le previsioni precise saranno disponibili ~16 giorni prima della partenza</p>';
+  container.innerHTML = html + '<p class="meteo-note">📊 Medie climatiche storiche per giugno in Islanda (fonte: Icelandic Met Office) — previsione reale non disponibile al momento</p>';
   window.meteoLoaded = true;
 }
 
