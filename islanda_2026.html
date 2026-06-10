@@ -1,17 +1,18 @@
 <!DOCTYPE html>
+
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="theme-color" content="#080e18">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<meta content="#080e18" name="theme-color"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
 <title>Islanda 2026</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Iceland&family=Jura:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="manifest" id="app-manifest">
-<link rel="icon" id="fav-icon" type="image/svg+xml">
-<link rel="apple-touch-icon" id="apple-icon">
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Iceland&amp;family=Jura:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link id="app-manifest" rel="manifest"/>
+<link id="fav-icon" rel="icon" type="image/svg+xml"/>
+<link id="apple-icon" rel="apple-touch-icon"/>
 <style>
 .install-fab{
   position:fixed; z-index:201;
@@ -819,451 +820,498 @@ a.parka-link svg { display: block; }
 .tab-content.active > *:nth-child(6) { animation-delay: 0.20s; }
 .tab-content.active > *:nth-child(7) { animation-delay: 0.24s; }
 .tab-content.active > *:nth-child(8) { animation-delay: 0.28s; }
+
+
+/* ===== MAPS MODAL ===== */
+.maps-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.72);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  padding:20px;
+}
+
+.maps-modal.hidden{
+  display:none;
+}
+
+.maps-modal-box{
+  width:100%;
+  max-width:380px;
+  background:var(--card);
+  border-radius:18px;
+  padding:18px;
+  border:1px solid var(--border2);
+  box-shadow:0 10px 40px rgba(0,0,0,.55);
+}
+
+.maps-modal-title{
+  font-family:var(--font-display);
+  font-size:26px;
+  color:var(--ice);
+  margin-bottom:16px;
+  letter-spacing:1px;
+}
+
+.maps-modal-actions button,
+.maps-prev-list button,
+.maps-close-btn{
+  width:100%;
+  border:none;
+  border-radius:12px;
+  padding:13px 14px;
+  margin-bottom:10px;
+  cursor:pointer;
+  font-family:var(--font-mono);
+  transition:transform .12s ease, opacity .12s ease;
+}
+
+.maps-modal-actions button:active,
+.maps-prev-list button:active,
+.maps-close-btn:active{
+  transform:scale(.98);
+}
+
+.maps-modal-actions button{
+  background:var(--surface2);
+  color:#fff;
+}
+
+.maps-prev-list{
+  max-height:340px;
+  overflow:auto;
+  margin-top:4px;
+}
+
+.maps-prev-list button{
+  background:#162434;
+  color:#d0e8f0;
+  text-align:left;
+}
+
+.maps-close-btn{
+  background:rgba(255,255,255,.06);
+  color:var(--muted-light);
+  margin-top:8px;
+}
+
+.maps-hidden{
+  display:none !important;
+}
 </style>
 </head>
 <body>
-
 <header class="app-header">
-  <!-- Bandiera islandese decorativa in alto a destra -->
-  <svg class="header-flag" viewBox="0 0 25 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <rect width="25" height="18" fill="#003897"/>
-    <rect x="7" width="3" height="18" fill="white"/>
-    <rect y="7" width="25" height="4" fill="white"/>
-    <rect x="8" width="1" height="18" fill="#D72828"/>
-    <rect y="8" width="25" height="2" fill="#D72828"/>
-  </svg>
-  <div class="header-eyebrow">Piano Viaggio</div>
-  <h1 class="header-title"><em>Islanda</em> 2026</h1>
-  <p class="header-sub">11–18 Giugno · Ring Road Sud + Circolo d'Oro</p>
-  <div class="header-pills">
-    <div class="pill"><span class="pill-icon">✈️</span> EJU3969</div>
-    <div class="pill"><span class="pill-icon">🚗</span> Dacia Duster</div>
-    <div class="pill"><span class="pill-icon">👥</span> 2 persone</div>
-    <div class="pill"><span class="pill-icon">📅</span> 8 giorni</div>
-  </div>
-</header>
-
-
-
-<!-- ========== ITINERARIO ========== -->
-<div id="tab-itinerario" class="tab-content active">
-
-  <p class="section-label">8 giorni · 7 tappe principali</p>
-
-  <!-- G1 -->
-  <div class="giorno-card" onclick="toggleDay(this)">
-    <div class="giorno-header">
-      <div class="giorno-num">1</div>
-      <div class="giorno-meta">
-        <div class="giorno-data">Giovedì 11 Giugno</div>
-        <div class="giorno-title">Arrivo e direzione Sud</div>
-      </div>
-      <span class="giorno-badge badge-sud">Sud</span>
-    </div>
-    <div class="giorno-body">
-      <div class="giorno-percorso">✈ Keflavík → Hafnarfjörður → Hella</div>
-      <ul class="attivita-list">
-        <li class="attivita-item"><span class="att-ora">09:25</span><span class="att-testo">Atterraggio a Keflavík</span></li>
-        <li class="attivita-item"><span class="att-ora">~10:00</span><span class="att-testo">Recupero auto Blue Car Rental — Dacia Duster (Booking #YT5XRO)</span></li>
-        <li class="attivita-item"><span class="att-ora">~11:00</span><span class="att-testo">Tappa a <a class="place-link" href="https://maps.google.com/?q=Hafnarfjörður+Iceland" target="_blank">Hafnarfjörður</a>: primo assaggio dell'atmosfera vichinga <a class="parka-link" href="https://www.parka.is/?lat=64.0667&lng=-21.9447&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a></span></li>
-        <li class="attivita-item"><span class="att-ora">15:00</span><span class="att-testo">🌋 <a class="place-link" href="https://maps.google.com/?q=LAVA+Centre+Hvolsvöllur" target="_blank">LAVA Centre</a>, Austurvegur 14, Hvolsvöllur — visita completa (72€) <a class="parka-link" href="https://www.parka.is/?lat=63.9843&lng=-20.2264&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a></span></li>
-        <li class="attivita-item"><span class="att-ora">~17:00</span><span class="att-testo">Check-in hotel (non prima delle 17)</span></li>
-      </ul>
-      <div class="pernottamento">🛏 <div><strong><a class="place-link" href="https://maps.google.com/?q=Arhus+Cottage+and+Camping+Hella+Iceland" target="_blank">Arhus Cottage and Camping</a></strong>6 Rangárbakkar, 850 Hella</div></div>
-    </div>
-  </div>
-
-  <!-- G2 -->
-  <div class="giorno-card" onclick="toggleDay(this)">
-    <div class="giorno-header">
-      <div class="giorno-num">2</div>
-      <div class="giorno-meta">
-        <div class="giorno-data">Venerdì 12 Giugno</div>
-        <div class="giorno-title">Le Isole dei Puffin</div>
-      </div>
-      <span class="giorno-badge badge-sud">Isole</span>
-    </div>
-    <div class="giorno-body">
-      <div class="giorno-percorso">🚢 Hella → Porto Landeyjahöfn → Vestmannaeyjar</div>
-      <ul class="attivita-list">
-        <li class="attivita-item"><span class="att-ora">09:00</span><span class="att-testo">Partenza per il porto</span></li>
-        <li class="attivita-item"><span class="att-ora">10:00</span><span class="att-testo">🚢 Traghetto per l'isola (A/R 18.200 ISK)</span></li>
-        <li class="attivita-item"><span class="att-ora">10:45</span><span class="att-testo">🐦 <a class="place-link" href="https://maps.google.com/?q=Stórhöfði+Vestmannaeyjar" target="_blank">Stórhöfði</a> — punto più ventoso d'Europa, pieno di puffin (maggio–agosto)</span></li>
-        <li class="attivita-item"><span class="att-ora">11:30</span><span class="att-testo">🌋 Escursione sul <a class="place-link" href="https://maps.google.com/?q=Eldfell+volcano+Vestmannaeyjar" target="_blank">Vulcano Eldfell</a> — cratere dell'eruzione del '73, terra ancora calda</span></li>
-        <li class="attivita-item"><span class="att-ora">12:45</span><span class="att-testo">🍽 Pranzo: <a class="place-link" href="https://maps.google.com/?q=Gott+restaurant+Vestmannaeyjar" target="_blank">Gott</a> o <a class="place-link" href="https://maps.google.com/?q=The+Brothers+Brewery+Vestmannaeyjar" target="_blank">The Brothers Brewery</a></span></li>
-        <li class="attivita-item"><span class="att-ora">14:00</span><span class="att-testo">🏛 <a class="place-link" href="https://maps.google.com/?q=Eldheimar+museum+Vestmannaeyjar" target="_blank">Museo Eldheimar</a> — la "Pompei del Nord", casa sepolta dalla cenere</span></li>
-        <li class="attivita-item"><span class="att-ora">15:45</span><span class="att-testo">🐘 <a class="place-link" href="https://maps.google.com/?q=Elephant+Rock+Vestmannaeyjar" target="_blank">Roccia dell'Elefante</a> + monumento dei Mormoni</span></li>
-        <li class="attivita-item"><span class="att-ora">16:30</span><span class="att-testo">⛪ <a class="place-link" href="https://maps.google.com/?q=Skansinn+Vestmannaeyjar" target="_blank">Skansinn</a> — forte e chiesa in legno (Stafkirkjan)</span></li>
-        <li class="attivita-item"><span class="att-ora">17:00</span><span class="att-testo">🛍 Shopping e relax al porto</span></li>
-        <li class="attivita-item"><span class="att-ora">18:00</span><span class="att-testo">🚢 Traghetto di rientro</span></li>
-      </ul>
-      <div class="pernottamento">🛏 <div><strong><a class="place-link" href="https://maps.google.com/?q=Arhus+Cottage+and+Camping+Hella+Iceland" target="_blank">Arhus Cottage and Camping</a></strong>6 Rangárbakkar, 850 Hella</div></div>
-    </div>
-  </div>
-
-  <!-- G3 -->
-  <div class="giorno-card" onclick="toggleDay(this)">
-    <div class="giorno-header">
-      <div class="giorno-num">3</div>
-      <div class="giorno-meta">
-        <div class="giorno-data">Sabato 13 Giugno</div>
-        <div class="giorno-title">Cascate e Spiaggia Nera</div>
-      </div>
-      <span class="giorno-badge badge-sud">Sud</span>
-    </div>
-    <div class="giorno-body">
-      <div class="giorno-percorso">🚗 Hella → Seljalandsfoss → Skógafoss → Reynisfjara → Vík</div>
-      <ul class="attivita-list">
-        <li class="attivita-item"><span class="att-ora">09:00</span><span class="att-testo">Partenza da hotel</span></li>
-        <li class="attivita-item"><span class="att-ora">10:00</span><span class="att-testo">💧 <a class="place-link" href="https://maps.google.com/?q=Seljalandsfoss+waterfall" target="_blank">Seljalandsfoss</a> <a class="parka-link" href="https://www.parka.is/?lat=63.6156&lng=-19.9886&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a> — si cammina DIETRO la cascata! Poi 10 min a sinistra per la cascata nascosta <a class="place-link" href="https://maps.google.com/?q=Gljúfrabúi+waterfall" target="_blank">Gljúfrabúi</a> (1h)</span></li>
-        <li class="attivita-item"><span class="att-ora">12:00</span><span class="att-testo">💧 <a class="place-link" href="https://maps.google.com/?q=Skógafoss+waterfall" target="_blank">Skógafoss</a> <a class="parka-link" href="https://www.parka.is/?lat=63.532&lng=-19.512&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a> — sali la scalinata destra per la vista dall'alto. Considera i primi 500m del sentiero Fimmvörðuháls (1h-1h30)</span></li>
-        <li class="attivita-item"><span class="att-ora">~13:30</span><span class="att-testo">💧 <a class="place-link" href="https://maps.google.com/?q=Kvernufoss+waterfall+Iceland" target="_blank">Kvernufoss</a> — la "sorella segreta" di Seljalandsfoss, 2 min di auto da Skógafoss. Quasi deserta, cammini dietro (20 min a piedi)</span></li>
-        <li class="attivita-item"><span class="att-ora">15:00</span><span class="att-testo">🏖 <a class="place-link" href="https://maps.google.com/?q=Reynisfjara+black+sand+beach" target="_blank">Reynisfjara</a> <a class="parka-link" href="https://www.parka.is/?lat=63.4055&lng=-19.044&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a> — colonne di basalto e grotta Hálsanefshellir. ⚠️ Attenzione sneaker waves!</span></li>
-        <li class="attivita-item"><span class="att-ora">17:00</span><span class="att-testo">⛪ <a class="place-link" href="https://maps.google.com/?q=Víkurkirkja+Vík+Iceland" target="_blank">Vík — chiesa Víkurkirkja</a> per la vista panoramica sui faraglioni Reynisdrangar</span></li>
-      </ul>
-      <div class="pernottamento">🛏 <div><strong><a class="place-link" href="https://maps.google.com/?q=Hotel+Katla+by+Keahotels+Vik+Iceland" target="_blank">Hotel Katla by Keahotels</a></strong>Hofdabrekka Road 1, ~5 km Est di Vík, 871 Vík</div></div>
-    </div>
-  </div>
-
-  <!-- G4 -->
-  <div class="giorno-card" onclick="toggleDay(this)">
-    <div class="giorno-header">
-      <div class="giorno-num">4</div>
-      <div class="giorno-meta">
-        <div class="giorno-data">Domenica 14 Giugno</div>
-        <div class="giorno-title">Iceberg e Diamanti</div>
-      </div>
-      <span class="giorno-badge badge-est">Est</span>
-    </div>
-    <div class="giorno-body">
-      <div class="giorno-percorso">🚗 Vík → Jökulsárlón → Diamond Beach → Reykjavík (565 km)</div>
-      <ul class="attivita-list">
-        <li class="attivita-item"><span class="att-ora">08:30</span><span class="att-testo">Partenza — lungo il tragitto: Eldhraun, campo di lava coperto di muschio verde (fermarsi nelle aree sosta)</span></li>
-        <li class="attivita-item"><span class="att-ora">12:00</span><span class="att-testo">🧊 <a class="place-link" href="https://maps.google.com/?q=Jökulsárlón+glacier+lagoon" target="_blank">Jökulsárlón</a> <a class="parka-link" href="https://www.parka.is/?lat=64.0784&lng=-16.2306&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a> — battello sulla laguna glaciale (14.200 ISK, prenotato). Uno dei posti più magici al mondo</span></li>
-        <li class="attivita-item"><span class="att-ora">13:00</span><span class="att-testo">💎 <a class="place-link" href="https://maps.google.com/?q=Diamond+Beach+Iceland" target="_blank">Diamond Beach</a> <a class="parka-link" href="https://www.parka.is/?lat=64.043&lng=-16.18&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a> — spiaggia nera con iceberg trasparenti</span></li>
-        <li class="attivita-item"><span class="att-ora">14:00</span><span class="att-testo">🚗 Lungo viaggio di rientro verso Reykjavík (5h)</span></li>
-        <li class="attivita-item"><span class="att-ora">~14:30</span><span class="att-testo">🎬 Canyon del Trono di Spade — deviazione ~1h totale, ne vale la pena!</span></li>
-      </ul>
-      <div class="pernottamento">🛏 <div><strong><a class="place-link" href="https://maps.google.com/?q=Hotel+Aska+29A+Skipholt+Reykjavik" target="_blank">Hotel Aska</a></strong>29A Skipholt, 105 Reykjavík (4 notti)</div></div>
-    </div>
-  </div>
-
-  <!-- G5 -->
-  <div class="giorno-card" onclick="toggleDay(this)">
-    <div class="giorno-header">
-      <div class="giorno-num">5</div>
-      <div class="giorno-meta">
-        <div class="giorno-data">Lunedì 15 Giugno</div>
-        <div class="giorno-title">Il Circolo d'Oro</div>
-      </div>
-      <span class="giorno-badge badge-gold">Þingvellir</span>
-    </div>
-    <div class="giorno-body">
-      <div class="giorno-percorso">🚗 Reykjavík → Þingvellir → Geysir → Gullfoss (240 km)</div>
-      <ul class="attivita-list">
-        <li class="attivita-item"><span class="att-ora">08:30</span><span class="att-testo">Partenza</span></li>
-        <li class="attivita-item"><span class="att-ora">09:30</span><span class="att-testo">🏛 <a class="place-link" href="https://maps.google.com/?q=Þingvellir+National+Park+Iceland" target="_blank">Parco Þingvellir</a> <a class="parka-link" href="https://www.parka.is/?lat=64.2559&lng=-21.1295&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a> — faglia tra placche tettoniche (Almannagjá), primo parlamento al mondo. Parcheggio P1 Hakið (~1000 ISK, app Parka.is). Cascata <a class="place-link" href="https://maps.google.com/?q=Öxarárfoss+Þingvellir" target="_blank">Öxarárfoss</a> + Lögberg</span></li>
-        <li class="attivita-item"><span class="att-ora">~13:00</span><span class="att-testo">🌋 <a class="place-link" href="https://maps.google.com/?q=Geysir+Iceland" target="_blank">Geysir</a> <a class="parka-link" href="https://www.parka.is/?lat=64.3108&lng=-20.3001&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a> — Strokkur erutta ogni 5-10 min, getti fino a 20m</span></li>
-        <li class="attivita-item"><span class="att-ora">15:30</span><span class="att-testo">💧 <a class="place-link" href="https://maps.google.com/?q=Gullfoss+waterfall+Iceland" target="_blank">Gullfoss</a> <a class="parka-link" href="https://www.parka.is/?lat=64.327&lng=-20.121&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a> — "Cascata d'Oro". Due livelli: uno alto (vicino al parcheggio) e uno basso a ridosso del salto</span></li>
-      </ul>
-      <div class="pernottamento">🛏 <div><strong><a class="place-link" href="https://maps.google.com/?q=Hotel+Aska+29A+Skipholt+Reykjavik" target="_blank">Hotel Aska</a></strong>29A Skipholt, 105 Reykjavík</div></div>
-    </div>
-  </div>
-
-  <!-- G6 -->
-  <div class="giorno-card" onclick="toggleDay(this)">
-    <div class="giorno-header">
-      <div class="giorno-num">6</div>
-      <div class="giorno-meta">
-        <div class="giorno-data">Martedì 16 Giugno</div>
-        <div class="giorno-title">Festival Vichingo e Secret Lagoon</div>
-      </div>
-      <span class="giorno-badge badge-city">Reykjavík</span>
-    </div>
-    <div class="giorno-body">
-      <div class="giorno-percorso">🚗 Reykjavík → Hafnarfjörður → Kerið → Secret Lagoon (195 km)</div>
-      <ul class="attivita-list">
-        <li class="attivita-item"><span class="att-ora">09:00</span><span class="att-testo">⚔️ <a class="place-link" href="https://maps.google.com/?q=Víðistaðatún+park+Hafnarfjörður" target="_blank">Víðistaðatún, Hafnarfjörður</a> — Festival Vichingo: mercatini e combattimenti</span></li>
-        <li class="attivita-item"><span class="att-ora">13:00</span><span class="att-testo">🍺 <a class="place-link" href="https://maps.google.com/?q=Fjörukráin+Viking+Village+Hafnarfjörður" target="_blank">Fjörukráin (Viking Village)</a> — hotel/ristorante permanente a tema vichingo. Ottimo per una birra o una foto</span></li>
-        <li class="attivita-item"><span class="att-ora">15:00</span><span class="att-testo">🌋 <a class="place-link" href="https://maps.google.com/?q=Kerið+volcanic+crater+Iceland" target="_blank">Cratere Kerið</a> <a class="parka-link" href="https://www.parka.is/?lat=64.0415&lng=-20.8854&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a> — cratere vulcanico circolare con lago turchese. Pareti di terra rossa: contrasto cromatico pazzesco</span></li>
-        <li class="attivita-item"><span class="att-ora">17:00</span><span class="att-testo">♨️ <a class="place-link" href="https://maps.google.com/?q=Secret+Lagoon+Fludir+Iceland" target="_blank">Secret Lagoon</a> <a class="parka-link" href="https://www.parka.is/?lat=64.1337&lng=-20.3072&zoom=15" target="_blank" title="Parcheggi Parka.is"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#1a56db"/><text x="9" y="13.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="white">P</text></svg></a> — la più antica piscina geotermale d'Islanda a Flúðir, atmosfera autentica (Gamla Laugin, ~3.500 ISK)</span></li>
-        <li class="attivita-item"><span class="att-ora">20:00</span><span class="att-testo">🍽 Cena in capitale — <a class="place-link" href="https://maps.google.com/?q=Grillmarkaðurinn+Reykjavík" target="_blank">Grillmarkaðurinn</a> (budget ~200€)</span></li>
-      </ul>
-      <div class="pernottamento">🛏 <div><strong><a class="place-link" href="https://maps.google.com/?q=Hotel+Aska+29A+Skipholt+Reykjavik" target="_blank">Hotel Aska</a></strong>29A Skipholt, 105 Reykjavík</div></div>
-    </div>
-  </div>
-
-  <!-- G7 -->
-  <div class="giorno-card" onclick="toggleDay(this)">
-    <div class="giorno-header">
-      <div class="giorno-num">7</div>
-      <div class="giorno-meta">
-        <div class="giorno-data">Mercoledì 17 Giugno</div>
-        <div class="giorno-title">Festa Nazionale 🎉</div>
-      </div>
-      <span class="giorno-badge badge-festa">Festa</span>
-    </div>
-    <div class="giorno-body">
-      <div class="giorno-percorso">🚶 Tutto a piedi nel centro di Reykjavík</div>
-      <ul class="attivita-list">
-        <li class="attivita-item"><span class="att-ora">Todo</span><span class="att-testo">🇮🇸 Giorno dell'Indipendenza Islandese! Parate, concerti e allegria dei locali per le strade. Momento perfetto per gli ultimi souvenir e una buona cena</span></li>
-      </ul>
-      <div class="pernottamento">🛏 <div><strong><a class="place-link" href="https://maps.google.com/?q=Hotel+Aska+29A+Skipholt+Reykjavik" target="_blank">Hotel Aska</a></strong>29A Skipholt, 105 Reykjavík</div></div>
-    </div>
-  </div>
-
-  <!-- G8 -->
-  <div class="giorno-card" onclick="toggleDay(this)">
-    <div class="giorno-header">
-      <div class="giorno-num">8</div>
-      <div class="giorno-meta">
-        <div class="giorno-data">Giovedì 18 Giugno</div>
-        <div class="giorno-title">Rientro a Milano</div>
-      </div>
-      <span class="giorno-badge badge-city">Partenza</span>
-    </div>
-    <div class="giorno-body">
-      <div class="giorno-percorso">🚗 Reykjavík → Aeroporto Keflavík (60 km)</div>
-      <ul class="attivita-list">
-        <li class="attivita-item"><span class="att-ora">08:00</span><span class="att-testo">Riconsegna auto Blue Car (Drop-off 08:00 — Keflavík International Airport)</span></li>
-        <li class="attivita-item"><span class="att-ora">10:15</span><span class="att-testo">✈️ Volo EJU3970 Keflavík → Milano Malpensa</span></li>
-        <li class="attivita-item"><span class="att-ora">16:30</span><span class="att-testo">🏠 Atterraggio a Milano Malpensa</span></li>
-      </ul>
-    </div>
-  </div>
-
+<!-- Bandiera islandese decorativa in alto a destra -->
+<svg aria-hidden="true" class="header-flag" viewbox="0 0 25 18" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#003897" height="18" width="25"></rect>
+<rect fill="white" height="18" width="3" x="7"></rect>
+<rect fill="white" height="4" width="25" y="7"></rect>
+<rect fill="#D72828" height="18" width="1" x="8"></rect>
+<rect fill="#D72828" height="2" width="25" y="8"></rect>
+</svg>
+<div class="header-eyebrow">Piano Viaggio</div>
+<h1 class="header-title"><em>Islanda</em> 2026</h1>
+<p class="header-sub">11–18 Giugno · Ring Road Sud + Circolo d'Oro</p>
+<div class="header-pills">
+<div class="pill"><span class="pill-icon">✈️</span> EJU3969</div>
+<div class="pill"><span class="pill-icon">🚗</span> Dacia Duster</div>
+<div class="pill"><span class="pill-icon">👥</span> 2 persone</div>
+<div class="pill"><span class="pill-icon">📅</span> 8 giorni</div>
 </div>
-
+</header>
+<!-- ========== ITINERARIO ========== -->
+<div class="tab-content active" id="tab-itinerario">
+<p class="section-label">8 giorni · 7 tappe principali</p>
+<!-- G1 -->
+<div class="giorno-card" onclick="toggleDay(this)">
+<div class="giorno-header">
+<div class="giorno-num">1</div>
+<div class="giorno-meta">
+<div class="giorno-data">Giovedì 11 Giugno</div>
+<div class="giorno-title">Arrivo e direzione Sud</div>
+</div>
+<span class="giorno-badge badge-sud">Sud</span>
+</div>
+<div class="giorno-body">
+<div class="giorno-percorso">✈ Keflavík → Hafnarfjörður → Hella</div>
+<ul class="attivita-list">
+<li class="attivita-item"><span class="att-ora">09:25</span><span class="att-testo">Atterraggio a Keflavík</span></li>
+<li class="attivita-item"><span class="att-ora">~10:00</span><span class="att-testo">Recupero auto Blue Car Rental — Dacia Duster (Booking #YT5XRO)</span></li>
+<li class="attivita-item"><span class="att-ora">~11:00</span><span class="att-testo">Tappa a <a class="place-link nav-point" data-day="1" data-label="Hafnarfjörður" data-maps="https://maps.google.com/?q=Hafnarfjörður+Iceland" data-point="0" href="https://maps.google.com/?q=Hafnarfjörður+Iceland" target="_blank">Hafnarfjörður</a>: primo assaggio dell'atmosfera vichinga <a class="parka-link" href="https://www.parka.is/?lat=64.0667&amp;lng=-21.9447&amp;zoom=15" target="_blank" title="Parcheggi Parka.is"><svg height="18" viewbox="0 0 18 18" width="18" xmlns="http://www.w3.org/2000/svg"><rect fill="#1a56db" height="18" rx="4" width="18"></rect><text fill="white" font-family="Arial,sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="9" y="13.5">P</text></svg></a></span></li>
+<li class="attivita-item"><span class="att-ora">15:00</span><span class="att-testo">🌋 <a class="place-link nav-point" data-day="1" data-label="LAVA Centre" data-maps="https://maps.google.com/?q=LAVA+Centre+Hvolsvöllur" data-point="1" href="https://maps.google.com/?q=LAVA+Centre+Hvolsvöllur" target="_blank">LAVA Centre</a>, Austurvegur 14, Hvolsvöllur — visita completa (72€) <a class="parka-link" href="https://www.parka.is/?lat=63.9843&amp;lng=-20.2264&amp;zoom=15" target="_blank" title="Parcheggi Parka.is"><svg height="18" viewbox="0 0 18 18" width="18" xmlns="http://www.w3.org/2000/svg"><rect fill="#1a56db" height="18" rx="4" width="18"></rect><text fill="white" font-family="Arial,sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="9" y="13.5">P</text></svg></a></span></li>
+<li class="attivita-item"><span class="att-ora">~17:00</span><span class="att-testo">Check-in hotel (non prima delle 17)</span></li>
+</ul>
+<div class="pernottamento">🛏 <div><strong><a class="place-link nav-point" data-day="1" data-label="Arhus Cottage and Camping" data-maps="https://maps.google.com/?q=Arhus+Cottage+and+Camping+Hella+Iceland" data-point="2" href="https://maps.google.com/?q=Arhus+Cottage+and+Camping+Hella+Iceland" target="_blank">Arhus Cottage and Camping</a></strong>6 Rangárbakkar, 850 Hella</div></div>
+</div>
+</div>
+<!-- G2 -->
+<div class="giorno-card" onclick="toggleDay(this)">
+<div class="giorno-header">
+<div class="giorno-num">2</div>
+<div class="giorno-meta">
+<div class="giorno-data">Venerdì 12 Giugno</div>
+<div class="giorno-title">Le Isole dei Puffin</div>
+</div>
+<span class="giorno-badge badge-sud">Isole</span>
+</div>
+<div class="giorno-body">
+<div class="giorno-percorso">🚢 Hella → Porto Landeyjahöfn → Vestmannaeyjar</div>
+<ul class="attivita-list">
+<li class="attivita-item"><span class="att-ora">09:00</span><span class="att-testo">Partenza per il porto</span></li>
+<li class="attivita-item"><span class="att-ora">10:00</span><span class="att-testo">🚢 Traghetto per l'isola (A/R 18.200 ISK)</span></li>
+<li class="attivita-item"><span class="att-ora">10:45</span><span class="att-testo">🐦 <a class="place-link nav-point" data-day="2" data-label="Stórhöfði" data-maps="https://maps.google.com/?q=Stórhöfði+Vestmannaeyjar" data-point="0" href="https://maps.google.com/?q=Stórhöfði+Vestmannaeyjar" target="_blank">Stórhöfði</a> — punto più ventoso d'Europa, pieno di puffin (maggio–agosto)</span></li>
+<li class="attivita-item"><span class="att-ora">11:30</span><span class="att-testo">🌋 Escursione sul <a class="place-link nav-point" data-day="2" data-label="Vulcano Eldfell" data-maps="https://maps.google.com/?q=Eldfell+volcano+Vestmannaeyjar" data-point="1" href="https://maps.google.com/?q=Eldfell+volcano+Vestmannaeyjar" target="_blank">Vulcano Eldfell</a> — cratere dell'eruzione del '73, terra ancora calda</span></li>
+<li class="attivita-item"><span class="att-ora">12:45</span><span class="att-testo">🍽 Pranzo: <a class="place-link nav-point" data-day="2" data-label="Gott" data-maps="https://maps.google.com/?q=Gott+restaurant+Vestmannaeyjar" data-point="2" href="https://maps.google.com/?q=Gott+restaurant+Vestmannaeyjar" target="_blank">Gott</a> o <a class="place-link nav-point" data-day="2" data-label="The Brothers Brewery" data-maps="https://maps.google.com/?q=The+Brothers+Brewery+Vestmannaeyjar" data-point="3" href="https://maps.google.com/?q=The+Brothers+Brewery+Vestmannaeyjar" target="_blank">The Brothers Brewery</a></span></li>
+<li class="attivita-item"><span class="att-ora">14:00</span><span class="att-testo">🏛 <a class="place-link nav-point" data-day="2" data-label="Museo Eldheimar" data-maps="https://maps.google.com/?q=Eldheimar+museum+Vestmannaeyjar" data-point="4" href="https://maps.google.com/?q=Eldheimar+museum+Vestmannaeyjar" target="_blank">Museo Eldheimar</a> — la "Pompei del Nord", casa sepolta dalla cenere</span></li>
+<li class="attivita-item"><span class="att-ora">15:45</span><span class="att-testo">🐘 <a class="place-link nav-point" data-day="2" data-label="Roccia dell'Elefante" data-maps="https://maps.google.com/?q=Elephant+Rock+Vestmannaeyjar" data-point="5" href="https://maps.google.com/?q=Elephant+Rock+Vestmannaeyjar" target="_blank">Roccia dell'Elefante</a> + monumento dei Mormoni</span></li>
+<li class="attivita-item"><span class="att-ora">16:30</span><span class="att-testo">⛪ <a class="place-link nav-point" data-day="2" data-label="Skansinn" data-maps="https://maps.google.com/?q=Skansinn+Vestmannaeyjar" data-point="6" href="https://maps.google.com/?q=Skansinn+Vestmannaeyjar" target="_blank">Skansinn</a> — forte e chiesa in legno (Stafkirkjan)</span></li>
+<li class="attivita-item"><span class="att-ora">17:00</span><span class="att-testo">🛍 Shopping e relax al porto</span></li>
+<li class="attivita-item"><span class="att-ora">18:00</span><span class="att-testo">🚢 Traghetto di rientro</span></li>
+</ul>
+<div class="pernottamento">🛏 <div><strong><a class="place-link nav-point" data-day="2" data-label="Arhus Cottage and Camping" data-maps="https://maps.google.com/?q=Arhus+Cottage+and+Camping+Hella+Iceland" data-point="7" href="https://maps.google.com/?q=Arhus+Cottage+and+Camping+Hella+Iceland" target="_blank">Arhus Cottage and Camping</a></strong>6 Rangárbakkar, 850 Hella</div></div>
+</div>
+</div>
+<!-- G3 -->
+<div class="giorno-card" onclick="toggleDay(this)">
+<div class="giorno-header">
+<div class="giorno-num">3</div>
+<div class="giorno-meta">
+<div class="giorno-data">Sabato 13 Giugno</div>
+<div class="giorno-title">Cascate e Spiaggia Nera</div>
+</div>
+<span class="giorno-badge badge-sud">Sud</span>
+</div>
+<div class="giorno-body">
+<div class="giorno-percorso">🚗 Hella → Seljalandsfoss → Skógafoss → Reynisfjara → Vík</div>
+<ul class="attivita-list">
+<li class="attivita-item"><span class="att-ora">09:00</span><span class="att-testo">Partenza da hotel</span></li>
+<li class="attivita-item"><span class="att-ora">10:00</span><span class="att-testo">💧 <a class="place-link nav-point" data-day="3" data-label="Seljalandsfoss" data-maps="https://maps.google.com/?q=Seljalandsfoss+waterfall" data-point="0" href="https://maps.google.com/?q=Seljalandsfoss+waterfall" target="_blank">Seljalandsfoss</a> <a class="parka-link" href="https://www.parka.is/?lat=63.6156&amp;lng=-19.9886&amp;zoom=15" target="_blank" title="Parcheggi Parka.is"><svg height="18" viewbox="0 0 18 18" width="18" xmlns="http://www.w3.org/2000/svg"><rect fill="#1a56db" height="18" rx="4" width="18"></rect><text fill="white" font-family="Arial,sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="9" y="13.5">P</text></svg></a> — si cammina DIETRO la cascata! Poi 10 min a sinistra per la cascata nascosta <a class="place-link nav-point" data-day="3" data-label="Gljúfrabúi" data-maps="https://maps.google.com/?q=Gljúfrabúi+waterfall" data-point="1" href="https://maps.google.com/?q=Gljúfrabúi+waterfall" target="_blank">Gljúfrabúi</a> (1h)</span></li>
+<li class="attivita-item"><span class="att-ora">12:00</span><span class="att-testo">💧 <a class="place-link nav-point" data-day="3" data-label="Skógafoss" data-maps="https://maps.google.com/?q=Skógafoss+waterfall" data-point="2" href="https://maps.google.com/?q=Skógafoss+waterfall" target="_blank">Skógafoss</a> <a class="parka-link" href="https://www.parka.is/?lat=63.532&amp;lng=-19.512&amp;zoom=15" target="_blank" title="Parcheggi Parka.is"><svg height="18" viewbox="0 0 18 18" width="18" xmlns="http://www.w3.org/2000/svg"><rect fill="#1a56db" height="18" rx="4" width="18"></rect><text fill="white" font-family="Arial,sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="9" y="13.5">P</text></svg></a> — sali la scalinata destra per la vista dall'alto. Considera i primi 500m del sentiero Fimmvörðuháls (1h-1h30)</span></li>
+<li class="attivita-item"><span class="att-ora">~13:30</span><span class="att-testo">💧 <a class="place-link nav-point" data-day="3" data-label="Kvernufoss" data-maps="https://maps.google.com/?q=Kvernufoss+waterfall+Iceland" data-point="3" href="https://maps.google.com/?q=Kvernufoss+waterfall+Iceland" target="_blank">Kvernufoss</a> — la "sorella segreta" di Seljalandsfoss, 2 min di auto da Skógafoss. Quasi deserta, cammini dietro (20 min a piedi)</span></li>
+<li class="attivita-item"><span class="att-ora">15:00</span><span class="att-testo">🏖 <a class="place-link nav-point" data-day="3" data-label="Reynisfjara" data-maps="https://maps.google.com/?q=Reynisfjara+black+sand+beach" data-point="4" href="https://maps.google.com/?q=Reynisfjara+black+sand+beach" target="_blank">Reynisfjara</a> <a class="parka-link" href="https://www.parka.is/?lat=63.4055&amp;lng=-19.044&amp;zoom=15" target="_blank" title="Parcheggi Parka.is"><svg height="18" viewbox="0 0 18 18" width="18" xmlns="http://www.w3.org/2000/svg"><rect fill="#1a56db" height="18" rx="4" width="18"></rect><text fill="white" font-family="Arial,sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="9" y="13.5">P</text></svg></a> — colonne di basalto e grotta Hálsanefshellir. ⚠️ Attenzione sneaker waves!</span></li>
+<li class="attivita-item"><span class="att-ora">17:00</span><span class="att-testo">⛪ <a class="place-link nav-point" data-day="3" data-label="Vík — chiesa Víkurkirkja" data-maps="https://maps.google.com/?q=Víkurkirkja+Vík+Iceland" data-point="5" href="https://maps.google.com/?q=Víkurkirkja+Vík+Iceland" target="_blank">Vík — chiesa Víkurkirkja</a> per la vista panoramica sui faraglioni Reynisdrangar</span></li>
+</ul>
+<div class="pernottamento">🛏 <div><strong><a class="place-link nav-point" data-day="3" data-label="Hotel Katla by Keahotels" data-maps="https://maps.google.com/?q=Hotel+Katla+by+Keahotels+Vik+Iceland" data-point="6" href="https://maps.google.com/?q=Hotel+Katla+by+Keahotels+Vik+Iceland" target="_blank">Hotel Katla by Keahotels</a></strong>Hofdabrekka Road 1, ~5 km Est di Vík, 871 Vík</div></div>
+</div>
+</div>
+<!-- G4 -->
+<div class="giorno-card" onclick="toggleDay(this)">
+<div class="giorno-header">
+<div class="giorno-num">4</div>
+<div class="giorno-meta">
+<div class="giorno-data">Domenica 14 Giugno</div>
+<div class="giorno-title">Iceberg e Diamanti</div>
+</div>
+<span class="giorno-badge badge-est">Est</span>
+</div>
+<div class="giorno-body">
+<div class="giorno-percorso">🚗 Vík → Jökulsárlón → Diamond Beach → Reykjavík (565 km)</div>
+<ul class="attivita-list">
+<li class="attivita-item"><span class="att-ora">08:30</span><span class="att-testo">Partenza — lungo il tragitto: Eldhraun, campo di lava coperto di muschio verde (fermarsi nelle aree sosta)</span></li>
+<li class="attivita-item"><span class="att-ora">12:00</span><span class="att-testo">🧊 <a class="place-link nav-point" data-day="4" data-label="Jökulsárlón" data-maps="https://maps.google.com/?q=Jökulsárlón+glacier+lagoon" data-point="0" href="https://maps.google.com/?q=Jökulsárlón+glacier+lagoon" target="_blank">Jökulsárlón</a> <a class="parka-link" href="https://www.parka.is/?lat=64.0784&amp;lng=-16.2306&amp;zoom=15" target="_blank" title="Parcheggi Parka.is"><svg height="18" viewbox="0 0 18 18" width="18" xmlns="http://www.w3.org/2000/svg"><rect fill="#1a56db" height="18" rx="4" width="18"></rect><text fill="white" font-family="Arial,sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="9" y="13.5">P</text></svg></a> — battello sulla laguna glaciale (14.200 ISK, prenotato). Uno dei posti più magici al mondo</span></li>
+<li class="attivita-item"><span class="att-ora">13:00</span><span class="att-testo">💎 <a class="place-link nav-point" data-day="4" data-label="Diamond Beach" data-maps="https://maps.google.com/?q=Diamond+Beach+Iceland" data-point="1" href="https://maps.google.com/?q=Diamond+Beach+Iceland" target="_blank">Diamond Beach</a> <a class="parka-link" href="https://www.parka.is/?lat=64.043&amp;lng=-16.18&amp;zoom=15" target="_blank" title="Parcheggi Parka.is"><svg height="18" viewbox="0 0 18 18" width="18" xmlns="http://www.w3.org/2000/svg"><rect fill="#1a56db" height="18" rx="4" width="18"></rect><text fill="white" font-family="Arial,sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="9" y="13.5">P</text></svg></a> — spiaggia nera con iceberg trasparenti</span></li>
+<li class="attivita-item"><span class="att-ora">14:00</span><span class="att-testo">🚗 Lungo viaggio di rientro verso Reykjavík (5h)</span></li>
+<li class="attivita-item"><span class="att-ora">~14:30</span><span class="att-testo">🎬 Canyon del Trono di Spade — deviazione ~1h totale, ne vale la pena!</span></li>
+</ul>
+<div class="pernottamento">🛏 <div><strong><a class="place-link nav-point" data-day="4" data-label="Hotel Aska" data-maps="https://maps.google.com/?q=Hotel+Aska+29A+Skipholt+Reykjavik" data-point="2" href="https://maps.google.com/?q=Hotel+Aska+29A+Skipholt+Reykjavik" target="_blank">Hotel Aska</a></strong>29A Skipholt, 105 Reykjavík (4 notti)</div></div>
+</div>
+</div>
+<!-- G5 -->
+<div class="giorno-card" onclick="toggleDay(this)">
+<div class="giorno-header">
+<div class="giorno-num">5</div>
+<div class="giorno-meta">
+<div class="giorno-data">Lunedì 15 Giugno</div>
+<div class="giorno-title">Il Circolo d'Oro</div>
+</div>
+<span class="giorno-badge badge-gold">Þingvellir</span>
+</div>
+<div class="giorno-body">
+<div class="giorno-percorso">🚗 Reykjavík → Þingvellir → Geysir → Gullfoss (240 km)</div>
+<ul class="attivita-list">
+<li class="attivita-item"><span class="att-ora">08:30</span><span class="att-testo">Partenza</span></li>
+<li class="attivita-item"><span class="att-ora">09:30</span><span class="att-testo">🏛 <a class="place-link nav-point" data-day="5" data-label="Parco Þingvellir" data-maps="https://maps.google.com/?q=Þingvellir+National+Park+Iceland" data-point="0" href="https://maps.google.com/?q=Þingvellir+National+Park+Iceland" target="_blank">Parco Þingvellir</a> <a class="parka-link" href="https://www.parka.is/?lat=64.2559&amp;lng=-21.1295&amp;zoom=15" target="_blank" title="Parcheggi Parka.is"><svg height="18" viewbox="0 0 18 18" width="18" xmlns="http://www.w3.org/2000/svg"><rect fill="#1a56db" height="18" rx="4" width="18"></rect><text fill="white" font-family="Arial,sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="9" y="13.5">P</text></svg></a> — faglia tra placche tettoniche (Almannagjá), primo parlamento al mondo. Parcheggio P1 Hakið (~1000 ISK, app Parka.is). Cascata <a class="place-link nav-point" data-day="5" data-label="Öxarárfoss" data-maps="https://maps.google.com/?q=Öxarárfoss+Þingvellir" data-point="1" href="https://maps.google.com/?q=Öxarárfoss+Þingvellir" target="_blank">Öxarárfoss</a> + Lögberg</span></li>
+<li class="attivita-item"><span class="att-ora">~13:00</span><span class="att-testo">🌋 <a class="place-link nav-point" data-day="5" data-label="Geysir" data-maps="https://maps.google.com/?q=Geysir+Iceland" data-point="2" href="https://maps.google.com/?q=Geysir+Iceland" target="_blank">Geysir</a> <a class="parka-link" href="https://www.parka.is/?lat=64.3108&amp;lng=-20.3001&amp;zoom=15" target="_blank" title="Parcheggi Parka.is"><svg height="18" viewbox="0 0 18 18" width="18" xmlns="http://www.w3.org/2000/svg"><rect fill="#1a56db" height="18" rx="4" width="18"></rect><text fill="white" font-family="Arial,sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="9" y="13.5">P</text></svg></a> — Strokkur erutta ogni 5-10 min, getti fino a 20m</span></li>
+<li class="attivita-item"><span class="att-ora">15:30</span><span class="att-testo">💧 <a class="place-link nav-point" data-day="5" data-label="Gullfoss" data-maps="https://maps.google.com/?q=Gullfoss+waterfall+Iceland" data-point="3" href="https://maps.google.com/?q=Gullfoss+waterfall+Iceland" target="_blank">Gullfoss</a> <a class="parka-link" href="https://www.parka.is/?lat=64.327&amp;lng=-20.121&amp;zoom=15" target="_blank" title="Parcheggi Parka.is"><svg height="18" viewbox="0 0 18 18" width="18" xmlns="http://www.w3.org/2000/svg"><rect fill="#1a56db" height="18" rx="4" width="18"></rect><text fill="white" font-family="Arial,sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="9" y="13.5">P</text></svg></a> — "Cascata d'Oro". Due livelli: uno alto (vicino al parcheggio) e uno basso a ridosso del salto</span></li>
+</ul>
+<div class="pernottamento">🛏 <div><strong><a class="place-link nav-point" data-day="5" data-label="Hotel Aska" data-maps="https://maps.google.com/?q=Hotel+Aska+29A+Skipholt+Reykjavik" data-point="4" href="https://maps.google.com/?q=Hotel+Aska+29A+Skipholt+Reykjavik" target="_blank">Hotel Aska</a></strong>29A Skipholt, 105 Reykjavík</div></div>
+</div>
+</div>
+<!-- G6 -->
+<div class="giorno-card" onclick="toggleDay(this)">
+<div class="giorno-header">
+<div class="giorno-num">6</div>
+<div class="giorno-meta">
+<div class="giorno-data">Martedì 16 Giugno</div>
+<div class="giorno-title">Festival Vichingo e Secret Lagoon</div>
+</div>
+<span class="giorno-badge badge-city">Reykjavík</span>
+</div>
+<div class="giorno-body">
+<div class="giorno-percorso">🚗 Reykjavík → Hafnarfjörður → Kerið → Secret Lagoon (195 km)</div>
+<ul class="attivita-list">
+<li class="attivita-item"><span class="att-ora">09:00</span><span class="att-testo">⚔️ <a class="place-link nav-point" data-day="6" data-label="Víðistaðatún, Hafnarfjörður" data-maps="https://maps.google.com/?q=Víðistaðatún+park+Hafnarfjörður" data-point="0" href="https://maps.google.com/?q=Víðistaðatún+park+Hafnarfjörður" target="_blank">Víðistaðatún, Hafnarfjörður</a> — Festival Vichingo: mercatini e combattimenti</span></li>
+<li class="attivita-item"><span class="att-ora">13:00</span><span class="att-testo">🍺 <a class="place-link nav-point" data-day="6" data-label="Fjörukráin (Viking Village)" data-maps="https://maps.google.com/?q=Fjörukráin+Viking+Village+Hafnarfjörður" data-point="1" href="https://maps.google.com/?q=Fjörukráin+Viking+Village+Hafnarfjörður" target="_blank">Fjörukráin (Viking Village)</a> — hotel/ristorante permanente a tema vichingo. Ottimo per una birra o una foto</span></li>
+<li class="attivita-item"><span class="att-ora">15:00</span><span class="att-testo">🌋 <a class="place-link nav-point" data-day="6" data-label="Cratere Kerið" data-maps="https://maps.google.com/?q=Kerið+volcanic+crater+Iceland" data-point="2" href="https://maps.google.com/?q=Kerið+volcanic+crater+Iceland" target="_blank">Cratere Kerið</a> <a class="parka-link" href="https://www.parka.is/?lat=64.0415&amp;lng=-20.8854&amp;zoom=15" target="_blank" title="Parcheggi Parka.is"><svg height="18" viewbox="0 0 18 18" width="18" xmlns="http://www.w3.org/2000/svg"><rect fill="#1a56db" height="18" rx="4" width="18"></rect><text fill="white" font-family="Arial,sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="9" y="13.5">P</text></svg></a> — cratere vulcanico circolare con lago turchese. Pareti di terra rossa: contrasto cromatico pazzesco</span></li>
+<li class="attivita-item"><span class="att-ora">17:00</span><span class="att-testo">♨️ <a class="place-link nav-point" data-day="6" data-label="Secret Lagoon" data-maps="https://maps.google.com/?q=Secret+Lagoon+Fludir+Iceland" data-point="3" href="https://maps.google.com/?q=Secret+Lagoon+Fludir+Iceland" target="_blank">Secret Lagoon</a> <a class="parka-link" href="https://www.parka.is/?lat=64.1337&amp;lng=-20.3072&amp;zoom=15" target="_blank" title="Parcheggi Parka.is"><svg height="18" viewbox="0 0 18 18" width="18" xmlns="http://www.w3.org/2000/svg"><rect fill="#1a56db" height="18" rx="4" width="18"></rect><text fill="white" font-family="Arial,sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="9" y="13.5">P</text></svg></a> — la più antica piscina geotermale d'Islanda a Flúðir, atmosfera autentica (Gamla Laugin, ~3.500 ISK)</span></li>
+<li class="attivita-item"><span class="att-ora">20:00</span><span class="att-testo">🍽 Cena in capitale — <a class="place-link nav-point" data-day="6" data-label="Grillmarkaðurinn" data-maps="https://maps.google.com/?q=Grillmarkaðurinn+Reykjavík" data-point="4" href="https://maps.google.com/?q=Grillmarkaðurinn+Reykjavík" target="_blank">Grillmarkaðurinn</a> (budget ~200€)</span></li>
+</ul>
+<div class="pernottamento">🛏 <div><strong><a class="place-link nav-point" data-day="6" data-label="Hotel Aska" data-maps="https://maps.google.com/?q=Hotel+Aska+29A+Skipholt+Reykjavik" data-point="5" href="https://maps.google.com/?q=Hotel+Aska+29A+Skipholt+Reykjavik" target="_blank">Hotel Aska</a></strong>29A Skipholt, 105 Reykjavík</div></div>
+</div>
+</div>
+<!-- G7 -->
+<div class="giorno-card" onclick="toggleDay(this)">
+<div class="giorno-header">
+<div class="giorno-num">7</div>
+<div class="giorno-meta">
+<div class="giorno-data">Mercoledì 17 Giugno</div>
+<div class="giorno-title">Festa Nazionale 🎉</div>
+</div>
+<span class="giorno-badge badge-festa">Festa</span>
+</div>
+<div class="giorno-body">
+<div class="giorno-percorso">🚶 Tutto a piedi nel centro di Reykjavík</div>
+<ul class="attivita-list">
+<li class="attivita-item"><span class="att-ora">Todo</span><span class="att-testo">🇮🇸 Giorno dell'Indipendenza Islandese! Parate, concerti e allegria dei locali per le strade. Momento perfetto per gli ultimi souvenir e una buona cena</span></li>
+</ul>
+<div class="pernottamento">🛏 <div><strong><a class="place-link nav-point" data-day="7" data-label="Hotel Aska" data-maps="https://maps.google.com/?q=Hotel+Aska+29A+Skipholt+Reykjavik" data-point="0" href="https://maps.google.com/?q=Hotel+Aska+29A+Skipholt+Reykjavik" target="_blank">Hotel Aska</a></strong>29A Skipholt, 105 Reykjavík</div></div>
+</div>
+</div>
+<!-- G8 -->
+<div class="giorno-card" onclick="toggleDay(this)">
+<div class="giorno-header">
+<div class="giorno-num">8</div>
+<div class="giorno-meta">
+<div class="giorno-data">Giovedì 18 Giugno</div>
+<div class="giorno-title">Rientro a Milano</div>
+</div>
+<span class="giorno-badge badge-city">Partenza</span>
+</div>
+<div class="giorno-body">
+<div class="giorno-percorso">🚗 Reykjavík → Aeroporto Keflavík (60 km)</div>
+<ul class="attivita-list">
+<li class="attivita-item"><span class="att-ora">08:00</span><span class="att-testo">Riconsegna auto Blue Car (Drop-off 08:00 — Keflavík International Airport)</span></li>
+<li class="attivita-item"><span class="att-ora">10:15</span><span class="att-testo">✈️ Volo EJU3970 Keflavík → Milano Malpensa</span></li>
+<li class="attivita-item"><span class="att-ora">16:30</span><span class="att-testo">🏠 Atterraggio a Milano Malpensa</span></li>
+</ul>
+</div>
+</div>
+</div>
 <!-- ========== KM ========== -->
-<div id="tab-km" class="tab-content">
-
-  <div class="stats-grid">
-    <div class="stat-box accent">
-      <div class="stat-val">1.385</div>
-      <div class="stat-label">km totali</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-val">173</div>
-      <div class="stat-label">km/giorno</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-val">8</div>
-      <div class="stat-label">giorni</div>
-    </div>
-  </div>
-
-  <div class="stats-grid">
-    <div class="stat-box">
-      <div class="stat-val">111</div>
-      <div class="stat-label">litri stimati</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-val">~2,16€</div>
-      <div class="stat-label">€/litro</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-val">240€</div>
-      <div class="stat-label">costo totale</div>
-    </div>
-  </div>
-
-  <div class="km-bar-wrap">
-    <div class="km-bar-label"><span>Giorno più lungo: D4 (565 km)</span><span>40% del totale</span></div>
-    <div class="km-bar-bg"><div class="km-bar-fill" style="width:100%"></div></div>
-  </div>
-
-  <p class="section-label">Percorso giorno per giorno</p>
-
-  <div class="km-row">
-    <div class="km-day-badge">D1</div>
-    <div class="km-info">
-      <div class="km-tratta">Keflavík → Hafnarfjörður → Hella</div>
-      <div class="km-note">Arrivo e sistemazione</div>
-    </div>
-    <div><div class="km-val">110</div><div class="km-unit">km</div></div>
-  </div>
-  <div class="km-row">
-    <div class="km-day-badge">D2</div>
-    <div class="km-info">
-      <div class="km-tratta">Hella → Porto + Vestmannaeyjar</div>
-      <div class="km-note">70 km + 15 km sull'isola</div>
-    </div>
-    <div><div class="km-val">85</div><div class="km-unit">km</div></div>
-  </div>
-  <div class="km-row">
-    <div class="km-day-badge">D3</div>
-    <div class="km-info">
-      <div class="km-tratta">Hella → Seljalandsfoss → Vík</div>
-      <div class="km-note">Costa Sud e cascate</div>
-    </div>
-    <div><div class="km-val">115</div><div class="km-unit">km</div></div>
-  </div>
-  <div class="km-row" style="border: 1.5px solid var(--gold-light);">
-    <div class="km-day-badge" style="background:rgba(240,192,96,0.12);color:#f0c060;border:0.5px solid rgba(240,192,96,0.25);">D4</div>
-    <div class="km-info">
-      <div class="km-tratta">Vík → Jökulsárlón → Reykjavík</div>
-      <div class="km-note">⭐ Giornata più lunga (5h rientro)</div>
-    </div>
-    <div><div class="km-val">565</div><div class="km-unit">km</div></div>
-  </div>
-  <div class="km-row">
-    <div class="km-day-badge">D5</div>
-    <div class="km-info">
-      <div class="km-tratta">Reykjavík → Circolo d'Oro</div>
-      <div class="km-note">Þingvellir, Geysir, Gullfoss</div>
-    </div>
-    <div><div class="km-val">240</div><div class="km-unit">km</div></div>
-  </div>
-  <div class="km-row">
-    <div class="km-day-badge">D6</div>
-    <div class="km-info">
-      <div class="km-tratta">Reykjavík → Hafnarfjörður → Secret Lagoon</div>
-      <div class="km-note">Festival vichingo + terme</div>
-    </div>
-    <div><div class="km-val">210</div><div class="km-unit">km</div></div>
-  </div>
-  <div class="km-row">
-    <div class="km-day-badge">D7</div>
-    <div class="km-info">
-      <div class="km-tratta">Reykjavík (a piedi)</div>
-      <div class="km-note">Festa Nazionale — nessun KM in auto</div>
-    </div>
-    <div><div class="km-val">0</div><div class="km-unit">km</div></div>
-  </div>
-  <div class="km-row">
-    <div class="km-day-badge">D8</div>
-    <div class="km-info">
-      <div class="km-tratta">Reykjavík → Keflavík</div>
-      <div class="km-note">Rientro in aeroporto</div>
-    </div>
-    <div><div class="km-val">60</div><div class="km-unit">km</div></div>
-  </div>
-
-  <div class="info-note" style="margin-top:16px;">
+<div class="tab-content" id="tab-km">
+<div class="stats-grid">
+<div class="stat-box accent">
+<div class="stat-val">1.385</div>
+<div class="stat-label">km totali</div>
+</div>
+<div class="stat-box">
+<div class="stat-val">173</div>
+<div class="stat-label">km/giorno</div>
+</div>
+<div class="stat-box">
+<div class="stat-val">8</div>
+<div class="stat-label">giorni</div>
+</div>
+</div>
+<div class="stats-grid">
+<div class="stat-box">
+<div class="stat-val">111</div>
+<div class="stat-label">litri stimati</div>
+</div>
+<div class="stat-box">
+<div class="stat-val">~2,16€</div>
+<div class="stat-label">€/litro</div>
+</div>
+<div class="stat-box">
+<div class="stat-val">240€</div>
+<div class="stat-label">costo totale</div>
+</div>
+</div>
+<div class="km-bar-wrap">
+<div class="km-bar-label"><span>Giorno più lungo: D4 (565 km)</span><span>40% del totale</span></div>
+<div class="km-bar-bg"><div class="km-bar-fill" style="width:100%"></div></div>
+</div>
+<p class="section-label">Percorso giorno per giorno</p>
+<div class="km-row">
+<div class="km-day-badge">D1</div>
+<div class="km-info">
+<div class="km-tratta">Keflavík → Hafnarfjörður → Hella</div>
+<div class="km-note">Arrivo e sistemazione</div>
+</div>
+<div><div class="km-val">110</div><div class="km-unit">km</div></div>
+</div>
+<div class="km-row">
+<div class="km-day-badge">D2</div>
+<div class="km-info">
+<div class="km-tratta">Hella → Porto + Vestmannaeyjar</div>
+<div class="km-note">70 km + 15 km sull'isola</div>
+</div>
+<div><div class="km-val">85</div><div class="km-unit">km</div></div>
+</div>
+<div class="km-row">
+<div class="km-day-badge">D3</div>
+<div class="km-info">
+<div class="km-tratta">Hella → Seljalandsfoss → Vík</div>
+<div class="km-note">Costa Sud e cascate</div>
+</div>
+<div><div class="km-val">115</div><div class="km-unit">km</div></div>
+</div>
+<div class="km-row" style="border: 1.5px solid var(--gold-light);">
+<div class="km-day-badge" style="background:rgba(240,192,96,0.12);color:#f0c060;border:0.5px solid rgba(240,192,96,0.25);">D4</div>
+<div class="km-info">
+<div class="km-tratta">Vík → Jökulsárlón → Reykjavík</div>
+<div class="km-note">⭐ Giornata più lunga (5h rientro)</div>
+</div>
+<div><div class="km-val">565</div><div class="km-unit">km</div></div>
+</div>
+<div class="km-row">
+<div class="km-day-badge">D5</div>
+<div class="km-info">
+<div class="km-tratta">Reykjavík → Circolo d'Oro</div>
+<div class="km-note">Þingvellir, Geysir, Gullfoss</div>
+</div>
+<div><div class="km-val">240</div><div class="km-unit">km</div></div>
+</div>
+<div class="km-row">
+<div class="km-day-badge">D6</div>
+<div class="km-info">
+<div class="km-tratta">Reykjavík → Hafnarfjörður → Secret Lagoon</div>
+<div class="km-note">Festival vichingo + terme</div>
+</div>
+<div><div class="km-val">210</div><div class="km-unit">km</div></div>
+</div>
+<div class="km-row">
+<div class="km-day-badge">D7</div>
+<div class="km-info">
+<div class="km-tratta">Reykjavík (a piedi)</div>
+<div class="km-note">Festa Nazionale — nessun KM in auto</div>
+</div>
+<div><div class="km-val">0</div><div class="km-unit">km</div></div>
+</div>
+<div class="km-row">
+<div class="km-day-badge">D8</div>
+<div class="km-info">
+<div class="km-tratta">Reykjavík → Keflavík</div>
+<div class="km-note">Rientro in aeroporto</div>
+</div>
+<div><div class="km-val">60</div><div class="km-unit">km</div></div>
+</div>
+<div class="info-note" style="margin-top:16px;">
     💡 Stima benzina: (1.385 km / 100) × 8 L/100km = <strong>111 litri</strong>. Prezzo medio 320 ISK/litro (~2,16€). Aggiungere ~5% per deviazioni e manovre nei parcheggi.
   </div>
-
 </div>
-
 <!-- ========== SPESE ========== -->
-<div id="tab-spese" class="tab-content">
-  <div id="spese-app"></div>
+<div class="tab-content" id="tab-spese">
+<div id="spese-app"></div>
 </div>
-
 <!-- ========== INFO ========== -->
-<div id="tab-info" class="tab-content">
-
-  <!-- VIABILITÀ LIVE -->
-  <p class="section-label">Viabilità & Allerte in tempo reale</p>
-  <div class="viab-card" id="viab-alerts-card">
-    <div class="viab-header">
-      <div class="viab-title">⚠️ Allerte meteo</div>
-      <button class="viab-refresh" onclick="loadAlerts()">↻ Aggiorna</button>
-    </div>
-    <div id="viab-alerts"><div class="viab-loading">Caricamento allerte...</div></div>
-    <div class="viab-info" style="margin-top:10px;">
-      <div class="viab-info-title">🔗 Fonti ufficiali — Meteo</div>
-      <a class="place-link" href="https://en.vedur.is/alerts" target="_blank">en.vedur.is/alerts — Allerte in tempo reale</a>
-      <a class="place-link" href="https://safetravel.is" target="_blank">safetravel.is — Sicurezza viaggiatori</a>
-    </div>
-  </div>
-  <div class="viab-card" id="viab-roads-card">
-    <div class="viab-header">
-      <div class="viab-title">🛣 Strade chiuse / limitazioni</div>
-      <button class="viab-refresh" onclick="loadRoads()">↻ Aggiorna</button>
-    </div>
-    <div id="viab-roads"><div class="viab-loading">Caricamento stato strade...</div></div>
-    <div class="viab-ts" id="viab-ts"></div>
-    <div class="viab-info" style="margin-top:10px;">
-      <div class="viab-info-title">🔗 Fonti ufficiali — Strade</div>
-      <a class="place-link" href="https://www.road.is/travel-info/conditions-on-mountain-roads/" target="_blank">road.is — Stato strade islandesi</a>
-      <a class="place-link" href="https://umferd.is" target="_blank">umferd.is — Mappa viabilità interattiva</a>
-    </div>
-  </div>
-
-  <p class="section-label">Voli</p>
-  <div class="volo-card">
-    <div>
-      <div class="volo-dir">Andata</div>
-      <div class="volo-route">MXP → KEF</div>
-      <div class="volo-details">Gio 11 Giu · 07:00 → 09:25 · Posti 23A/23B</div>
-    </div>
-    <div class="volo-num">EJU3969</div>
-  </div>
-  <div class="volo-card">
-    <div>
-      <div class="volo-dir">Ritorno</div>
-      <div class="volo-route">KEF → MXP</div>
-      <div class="volo-details">Gio 18 Giu · 10:15 → 16:30 · Posti 23A/23B</div>
-    </div>
-    <div class="volo-num">EJU3970</div>
-  </div>
-
-  <p class="section-label" style="margin-top:20px;">Info pratiche</p>
-  <div class="info-card">
-    <div class="info-card-title">💰 Valuta e costi</div>
-    <div class="info-row"><span class="info-key">Valuta</span><span class="info-val">ISK — Corona Islandese</span></div>
-    <div class="info-row"><span class="info-key">Cambio (stimato)</span><span class="info-val">~150 ISK = 1€</span></div>
-    <div class="info-row"><span class="info-key">Benzina</span><span class="info-val">~320 ISK/litro (~2,16€)</span></div>
-    <div class="info-row"><span class="info-key">Parcheggio Þingvellir</span><span class="info-val">~1.000 ISK (app Parka.is)</span></div>
-  </div>
-
-  <div class="info-card">
-    <div class="info-card-title">🌤 Meteo e Natura</div>
-    <div class="info-row"><span class="info-key">Temperatura giugno</span><span class="info-val">10–15°C</span></div>
-    <div class="info-row"><span class="info-key">Tramonto (giugno)</span><span class="info-val">~23:30 (quasi notte bianca)</span></div>
-    <div class="info-row"><span class="info-key">Puffin (Stórhöfði)</span><span class="info-val">maggio–agosto ✓</span></div>
-    <div class="info-row"><span class="info-key">Festival Vichingo</span><span class="info-val">16–17 Giugno ✓</span></div>
-    <div class="info-row"><span class="info-key">Festa Nazionale</span><span class="info-val">17 Giugno 🇮🇸</span></div>
-  </div>
-
-  <div class="info-card">
-    <div class="info-card-title">🚨 Emergenze e sicurezza</div>
-    <div class="info-row"><span class="info-key">Emergenze</span><span class="info-val"><a class="emergency-link" href="tel:112">112</a></span></div>
-    <div class="info-row"><span class="info-key">Meteo strade</span><span class="info-val">Road.is</span></div>
-    <div class="info-row"><span class="info-key">F-Roads</span><span class="info-val">Verificare SEMPRE prima</span></div>
-    <div class="info-row"><span class="info-key">Dacia Duster Booking</span><span class="info-val">#YT5XRO</span></div>
-    <div class="info-note" style="margin-top:10px;">
+<div class="tab-content" id="tab-info">
+<!-- VIABILITÀ LIVE -->
+<p class="section-label">Viabilità &amp; Allerte in tempo reale</p>
+<div class="viab-card" id="viab-alerts-card">
+<div class="viab-header">
+<div class="viab-title">⚠️ Allerte meteo</div>
+<button class="viab-refresh" onclick="loadAlerts()">↻ Aggiorna</button>
+</div>
+<div id="viab-alerts"><div class="viab-loading">Caricamento allerte...</div></div>
+<div class="viab-info" style="margin-top:10px;">
+<div class="viab-info-title">🔗 Fonti ufficiali — Meteo</div>
+<a class="place-link" href="https://en.vedur.is/alerts" target="_blank">en.vedur.is/alerts — Allerte in tempo reale</a>
+<a class="place-link" href="https://safetravel.is" target="_blank">safetravel.is — Sicurezza viaggiatori</a>
+</div>
+</div>
+<div class="viab-card" id="viab-roads-card">
+<div class="viab-header">
+<div class="viab-title">🛣 Strade chiuse / limitazioni</div>
+<button class="viab-refresh" onclick="loadRoads()">↻ Aggiorna</button>
+</div>
+<div id="viab-roads"><div class="viab-loading">Caricamento stato strade...</div></div>
+<div class="viab-ts" id="viab-ts"></div>
+<div class="viab-info" style="margin-top:10px;">
+<div class="viab-info-title">🔗 Fonti ufficiali — Strade</div>
+<a class="place-link" href="https://www.road.is/travel-info/conditions-on-mountain-roads/" target="_blank">road.is — Stato strade islandesi</a>
+<a class="place-link" href="https://umferd.is" target="_blank">umferd.is — Mappa viabilità interattiva</a>
+</div>
+</div>
+<p class="section-label">Voli</p>
+<div class="volo-card">
+<div>
+<div class="volo-dir">Andata</div>
+<div class="volo-route">MXP → KEF</div>
+<div class="volo-details">Gio 11 Giu · 07:00 → 09:25 · Posti 23A/23B</div>
+</div>
+<div class="volo-num">EJU3969</div>
+</div>
+<div class="volo-card">
+<div>
+<div class="volo-dir">Ritorno</div>
+<div class="volo-route">KEF → MXP</div>
+<div class="volo-details">Gio 18 Giu · 10:15 → 16:30 · Posti 23A/23B</div>
+</div>
+<div class="volo-num">EJU3970</div>
+</div>
+<p class="section-label" style="margin-top:20px;">Info pratiche</p>
+<div class="info-card">
+<div class="info-card-title">💰 Valuta e costi</div>
+<div class="info-row"><span class="info-key">Valuta</span><span class="info-val">ISK — Corona Islandese</span></div>
+<div class="info-row"><span class="info-key">Cambio (stimato)</span><span class="info-val">~150 ISK = 1€</span></div>
+<div class="info-row"><span class="info-key">Benzina</span><span class="info-val">~320 ISK/litro (~2,16€)</span></div>
+<div class="info-row"><span class="info-key">Parcheggio Þingvellir</span><span class="info-val">~1.000 ISK (app Parka.is)</span></div>
+</div>
+<div class="info-card">
+<div class="info-card-title">🌤 Meteo e Natura</div>
+<div class="info-row"><span class="info-key">Temperatura giugno</span><span class="info-val">10–15°C</span></div>
+<div class="info-row"><span class="info-key">Tramonto (giugno)</span><span class="info-val">~23:30 (quasi notte bianca)</span></div>
+<div class="info-row"><span class="info-key">Puffin (Stórhöfði)</span><span class="info-val">maggio–agosto ✓</span></div>
+<div class="info-row"><span class="info-key">Festival Vichingo</span><span class="info-val">16–17 Giugno ✓</span></div>
+<div class="info-row"><span class="info-key">Festa Nazionale</span><span class="info-val">17 Giugno 🇮🇸</span></div>
+</div>
+<div class="info-card">
+<div class="info-card-title">🚨 Emergenze e sicurezza</div>
+<div class="info-row"><span class="info-key">Emergenze</span><span class="info-val"><a class="emergency-link" href="tel:112">112</a></span></div>
+<div class="info-row"><span class="info-key">Meteo strade</span><span class="info-val">Road.is</span></div>
+<div class="info-row"><span class="info-key">F-Roads</span><span class="info-val">Verificare SEMPRE prima</span></div>
+<div class="info-row"><span class="info-key">Dacia Duster Booking</span><span class="info-val">#YT5XRO</span></div>
+<div class="info-note" style="margin-top:10px;">
       ⚠️ A Reynisfjara attenzione alle <strong>sneaker waves</strong> — onde improvvise e pericolose. Non avvicinarsi mai troppo all'acqua.
     </div>
-  </div>
-
 </div>
-
+</div>
 <!-- ========== METEO ========== -->
-<div id="tab-meteo" class="tab-content">
-  <p class="section-label">Previsioni per il tuo viaggio</p>
-  <div id="meteo-container">
-    <div class="meteo-loading">⏳ Caricamento previsioni...</div>
-  </div>
-  <p class="meteo-note">Fonte: Open-Meteo · Dati aggiornati in tempo reale</p>
+<div class="tab-content" id="tab-meteo">
+<p class="section-label">Previsioni per il tuo viaggio</p>
+<div id="meteo-container">
+<div class="meteo-loading">⏳ Caricamento previsioni...</div>
 </div>
-
+<p class="meteo-note">Fonte: Open-Meteo · Dati aggiornati in tempo reale</p>
+</div>
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav">
-  <button class="nav-btn active" onclick="showTab('itinerario')">
-    <span class="n-icon">🗺</span>Piano
+<button class="nav-btn active" onclick="showTab('itinerario')">
+<span class="n-icon">🗺</span>Piano
   </button>
-  <button class="nav-btn" onclick="showTab('km')">
-    <span class="n-icon">🚗</span>Km
+<button class="nav-btn" onclick="showTab('km')">
+<span class="n-icon">🚗</span>Km
   </button>
-  <button class="nav-btn" onclick="showTab('spese')">
-    <span class="n-icon">💶</span>Spese
+<button class="nav-btn" onclick="showTab('spese')">
+<span class="n-icon">💶</span>Spese
   </button>
-  <button class="nav-btn" onclick="showTab('meteo')">
-    <span class="n-icon">🌤</span>Meteo
+<button class="nav-btn" onclick="showTab('meteo')">
+<span class="n-icon">🌤</span>Meteo
   </button>
-  <button class="nav-btn" onclick="showTab('info')">
-    <span class="n-icon">ℹ️</span>Info
+<button class="nav-btn" onclick="showTab('info')">
+<span class="n-icon">ℹ️</span>Info
   </button>
 </nav>
-
-<button class="install-fab" id="install-btn" type="button" hidden aria-label="Installa l'app">
-  <img id="install-icon" alt="">
-  <b>Installa app</b>
+<button aria-label="Installa l'app" class="install-fab" hidden="" id="install-btn" type="button">
+<img alt="" id="install-icon"/>
+<b>Installa app</b>
 </button>
-<div class="install-toast" id="ios-hint" hidden></div>
-
+<div class="install-toast" hidden="" id="ios-hint"></div>
 <script>
 function showTab(name) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -1723,7 +1771,6 @@ function renderMeteoCard(g, icon, desc, tmin, tmax, wind, rain, fonte) {
     </div>`;
 }
 </script>
-
 <script>
 /* ===== PWA: icona puffin + manifest + installazione Android/iOS ===== */
 (function(){
@@ -1840,5 +1887,130 @@ function renderMeteoCard(g, icon, desc, tmin, tmax, wind, rain, fonte) {
   window.addEventListener('appinstalled', ()=>{ if(btn) btn.hidden = true; deferredPrompt = null; });
 })();
 </script>
-</body>
+
+<div class="maps-modal hidden" id="maps-modal">
+<div class="maps-modal-box">
+<div class="maps-modal-title">
+      Maps
+    </div>
+<div class="maps-modal-actions" id="maps-main-actions">
+<button id="maps-point-btn">📍 Punto specifico</button>
+<button id="maps-nav-btn">🧭 Navigazione</button>
+</div>
+<div class="maps-prev-list maps-hidden" id="maps-prev-list"></div>
+<button class="maps-close-btn" id="maps-close-btn">
+      Chiudi
+    </button>
+</div>
+</div>
+<script>
+const navPoints = [];
+
+document.querySelectorAll('.nav-point').forEach(el => {
+
+  navPoints.push({
+    day: parseInt(el.dataset.day),
+    point: parseInt(el.dataset.point),
+    label: el.dataset.label,
+    maps: el.dataset.maps
+  });
+
+  el.addEventListener('click', e => {
+    e.preventDefault();
+    openMapsModal(el);
+  });
+
+});
+
+const mapsModal = document.getElementById('maps-modal');
+const prevList = document.getElementById('maps-prev-list');
+
+let currentTarget = null;
+
+function openMapsModal(el){
+
+  currentTarget = {
+    day: parseInt(el.dataset.day),
+    point: parseInt(el.dataset.point),
+    label: el.dataset.label,
+    maps: el.dataset.maps
+  };
+
+  prevList.innerHTML = '';
+  prevList.classList.add('maps-hidden');
+
+  document
+    .getElementById('maps-main-actions')
+    .classList.remove('maps-hidden');
+
+  mapsModal.classList.remove('hidden');
+}
+
+document.getElementById('maps-close-btn').onclick = () => {
+  mapsModal.classList.add('hidden');
+};
+
+mapsModal.addEventListener('click', e => {
+  if(e.target === mapsModal){
+    mapsModal.classList.add('hidden');
+  }
+});
+
+document.getElementById('maps-point-btn').onclick = () => {
+  window.open(currentTarget.maps, '_blank');
+};
+
+document.getElementById('maps-nav-btn').onclick = () => {
+
+  document
+    .getElementById('maps-main-actions')
+    .classList.add('maps-hidden');
+
+  const previous = navPoints.filter(p => {
+
+    if(p.day < currentTarget.day) return true;
+
+    if(
+      p.day === currentTarget.day &&
+      p.point < currentTarget.point
+    ) return true;
+
+    return false;
+  });
+
+  previous.reverse();
+
+  previous.forEach(p => {
+
+    const btn = document.createElement('button');
+
+    btn.innerText =
+      `[D${p.day} - P${p.point}] ${p.label}`;
+
+    btn.onclick = () => {
+
+      const url =
+        `https://www.google.com/maps/dir/?api=1` +
+        `&origin=${encodeURIComponent(p.label)}` +
+        `&destination=${encodeURIComponent(currentTarget.label)}`;
+
+      window.open(url, '_blank');
+    };
+
+    prevList.appendChild(btn);
+  });
+
+  if(previous.length === 0){
+
+    const empty = document.createElement('button');
+
+    empty.innerText = 'Nessun punto precedente disponibile';
+    empty.disabled = true;
+
+    prevList.appendChild(empty);
+  }
+
+  prevList.classList.remove('maps-hidden');
+};
+</script></body>
 </html>
